@@ -8,7 +8,13 @@ drug_details(name = NULL, chemical_or_presentation_code = NULL,
   BNF_section_code = NULL, exact_name_or_code = NULL)
 }
 \arguments{
+\item{name}{A code found using drug_details().}
+
+\item{chemical_or_presentation_code}{A code found using drug_details().}
+
 \item{BNF_section_code}{A code found using drug_details().}
+
+\item{exact_name_or_code}{Search by an exact name/code.}
 }
 \value{
 Returns official names and codes of BNF sections, chemicals and presentations

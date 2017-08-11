@@ -1,7 +1,9 @@
 #'Search for the official name and code of BNF sections, chemicals and presentations.
 #'
+#' @param name A code found using drug_details().
+#' @param chemical_or_presentation_code A code found using drug_details().
 #' @param BNF_section_code A code found using drug_details().
-
+#' @param exact_name_or_code Search by an exact name/code.
 #' @return Returns official names and codes of BNF sections, chemicals and presentations
 #' @export
 #' @examples
