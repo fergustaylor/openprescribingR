@@ -1,6 +1,6 @@
 # openprescribingR
 
-OpenprescribingR is a small package I made to import OpenPrescribing data directly into RStudio.
+OpenprescribingR is a small package I made to import OpenPrescribing.net data directly into RStudio.
 
 It uses the (beta) RESTful API from OpenPrescribing.
 
