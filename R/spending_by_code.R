@@ -1,6 +1,6 @@
 #'Queries from August 2010 to date and returns total spending and items by month.
 #' 
-#' @param BNF_code
+#' @param BNF_code A code found using drug_details(). Or the BNF.
 #' @return Returns total spending and items by month.
 #' @examples
 #' spending_by_code() 
