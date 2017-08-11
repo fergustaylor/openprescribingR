@@ -25,7 +25,7 @@ organisation_codes <- function(organisation_code_or_name = NULL, CCG_code_or_nam
     if(exists("variablesegment4")){variablesegment4})
   
   stringr::str_c("https://openprescribing.net/api/1.0/org_code/?", variablesegment, "&format=csv") %>%
-    getURL() %>%
+    RCurl::getURL() %>%
     textConnection() %>%
     read.csv()
 }

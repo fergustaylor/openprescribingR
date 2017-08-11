@@ -25,7 +25,7 @@ drug_details <- function(name = NULL, chemical_or_presentation_code = NULL, BNF_
     if(exists("variablesegment3")){variablesegment3},
     if(exists("variablesegment4")){variablesegment4})
   stringr::str_c("https://openprescribing.net/api/1.0/bnf_code/?", variablesegment, "&format=csv") %>%
-    getURL() %>%
+    RCurl::getURL() %>%
     textConnection() %>%
     read.csv()
 }

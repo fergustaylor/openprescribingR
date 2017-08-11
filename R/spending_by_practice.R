@@ -31,7 +31,7 @@ spending_by_practice <- function(BNF_section_code = NULL, chemical_code = NULL, 
     if(exists("variablesegment5")){variablesegment5},
     if(exists("variablesegment6")){variablesegment6})
   stringr::str_c("https://openprescribing.net/api/1.0/", "spending_by_practice/?", variablesegment, "&format=csv") %>%
-    getURL() %>%
+    RCurl::getURL() %>%
     textConnection() %>%
     read.csv()
 }

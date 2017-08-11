@@ -14,7 +14,7 @@ spending_by_CCG <- function(chemical_code = NULL, CCG_code = NULL){
   if (!is.null(CCG_code) & !is.null(CCG_code)) {variablesegment <- stringr::str_c("code=", chemical_code, "&org=", CCG_code)}
   if (is.null(chemical_code) & is.null(CCG_code)) {warning("chemical_code and/or CCG_code required")}
   stringr::str_c("https://openprescribing.net/api/1.0/", "spending_by_ccg/?", variablesegment, "&format=csv") %>%
-    getURL() %>%
+    RCurl::getURL() %>%
     textConnection() %>%
     read.csv()
 }

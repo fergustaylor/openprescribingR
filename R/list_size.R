@@ -18,7 +18,7 @@ list_size <- function(list_size_by_code = NULL, ASTRO_PU_by_code = NULL){
     if(exists("variablesegment2")){variablesegment2},
     if(exists("variablesegment3")){variablesegment3})
   stringr::str_c("https://openprescribing.net/api/1.0/org_details/?org_type=", variablesegment, "&format=csv") %>%
-    getURL() %>%
+    RCurl::getURL() %>%
     textConnection() %>%
     read.csv()
 }
