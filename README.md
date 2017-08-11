@@ -1,6 +1,6 @@
 # openprescribingR
 
-OpenprescribingR is a small package I made to allow you to import OpenPrescribing data directly into RStudio.
+OpenprescribingR is a small package I made to import OpenPrescribing data directly into RStudio.
 
 It uses the (beta) RESTful API from OpenPrescribing.
 
@@ -40,6 +40,6 @@ CCG Boundraries are unavailable for now
 
 Further explanation on the terms used here - [https://openprescribing.net/api/](https://openprescribing.net/api/)
 
-Essential reading on [https://openprescribing.net/api/](https://openprescribing.net/caution/)
+Essential reading on [https://openprescribing.net/caution/](https://openprescribing.net/caution/)
 
 ![Picture](openpres.png)
