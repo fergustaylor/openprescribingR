@@ -5,6 +5,7 @@
 #' @param practice_code_or_name A code found using drug_details().
 #' @param exact_name_or_code A code found using drug_details().
 #' @return Returns details about a CCG or practice by code or name.
+#' @importFrom tidyverse "%>%"
 #' @export
 #' @examples
 #' All organisations matching a code or name = organisation_codes(organisation_code_or_name= "...")

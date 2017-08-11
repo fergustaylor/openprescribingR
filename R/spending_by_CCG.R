@@ -3,6 +3,7 @@
 #' @param chemical_code A code found using drug_details().
 #' @param CCG_code A code found using organisation_codes().
 #' @return Returns spending and items by CCG by month.
+#' @importFrom tidyverse "%>%"
 #' @export
 #' @examples
 #' spending_by_CCG(chemical_code = "0212000AA") 
