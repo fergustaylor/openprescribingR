@@ -1,5 +1,5 @@
 ---
-title: "openprescribingR Vignette"
+title: "Introduction"
 author: "Fergus Taylor"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
