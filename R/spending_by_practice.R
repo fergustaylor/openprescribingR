@@ -8,7 +8,7 @@
 #' @param CCG_code A code found using organisation_codes().
 #' @param date_code A date using the format "2015-12-01".
 #' @return Returns total spending and items by practice by month.
-#' @importFrom tidyverse "%>%"
+#' @importFrom magrittr "%>%"
 #' @export
 #' @examples
 #' spending_by_practice(BNF_section_code = "0212", date_code = "2015-04-01")

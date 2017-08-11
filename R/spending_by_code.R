@@ -2,7 +2,7 @@
 #' 
 #' @param BNF_code A code found using drug_details(). Or the BNF.
 #' @return Returns total spending and items by month.
-#' @importFrom tidyverse "%>%"
+#' @importFrom magrittr "%>%"
 #' @export
 #' @examples
 #' spending_by_code() 

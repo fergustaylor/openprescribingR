@@ -3,7 +3,7 @@
 #' @param list_size_by_code A practice or CCG code found using organisation_codes().
 #' @param ASTRO_PU_by_code A practice or CCG code found using organisation_codes().
 #' @return Returns values for all months available.
-#' @importFrom tidyverse "%>%"
+#' @importFrom magrittr "%>%"
 #' @export
 #' @examples
 #' Total list size for all CCGs = list_size()

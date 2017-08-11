@@ -5,7 +5,7 @@
 #' @param BNF_section_code A code found using drug_details().
 #' @param exact_name_or_code Search by an exact name/code.
 #' @return Returns official names and codes of BNF sections, chemicals and presentations
-#' @importFrom tidyverse "%>%"
+#' @importFrom magrittr "%>%"
 #' @export
 #' @examples
 #' All BNF sections, chemicals and presentations matching a name (case-insensitive) = drug_details(name= "lipid")
