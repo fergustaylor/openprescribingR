@@ -42,4 +42,7 @@ Further explanation on the terms used here - [https://openprescribing.net/api/](
 
 Essential reading on [https://openprescribing.net/caution/](https://openprescribing.net/caution/)
 
-![Picture](openpres.png)
+![Picture](openpres.png)(https://openprescribing.net/ "https://openprescribing.net/")
+
+[![A short walk-through on OpenPrescribing.net](openpres2.png)](https://www.youtube.com/watch?v=U-hvuEfUUOM "A short walk-through on OpenPrescribing.net")
+
