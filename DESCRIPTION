@@ -1,6 +1,6 @@
 Package: openprescribingR
 Title: Load OpenPrescribing data directly into R
-Description: Using the (beta) RESTful API and a few lines of R, I can create a small function to download and import OpenPrescribing data directly into RStudio.
+Description: Using the (beta) RESTful API and a few lines of R, I can download and import OpenPrescribing data directly into RStudio.
     You could still download it onto your desktop directly from the API, but I think that doing this in-studio makes it much easier to update the information.
     Further explanation on the terms used here - [https://openprescribing.net/api/](https://openprescribing.net/api/)
     Essential reading [https://openprescribing.net/api/](https://openprescribing.net/caution/)
