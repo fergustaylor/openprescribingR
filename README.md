@@ -9,6 +9,17 @@ You could still download it onto your desktop directly from the API, but I think
 The package is split into the look-up and the data import functions.
 ('Information API' and 'Spending API')
 
+Installation:
+
+`library(devtools)`
+
+`devtools::install_github("fergustaylor/openprescribingR")`
+
+Load:
+
+`library(openprescribingR)`
+
+
 __These functions give details on drugs/organisations/list sizes.__
 
  *  drug_details()
