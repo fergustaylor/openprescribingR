@@ -9,11 +9,11 @@
 #' spending_by_CCG(CCG_code = "03V")
 #' spending_by_CCG(chemical_code = "0212000AA", CCG_code = "03V")
 spending_by_CCG <- function(chemical_code = NULL, CCG_code = NULL){
-  if (!is.null(chemical_code) & is.null(CCG_code)) {variablesegment <- str_c("code=", chemical_code)} 
-  if (!is.null(CCG_code) & is.null(chemical_code)) {variablesegment <- str_c("&org=", CCG_code)}
-  if (!is.null(CCG_code) & !is.null(CCG_code)) {variablesegment <- str_c("code=", chemical_code, "&org=", CCG_code)}
+  if (!is.null(chemical_code) & is.null(CCG_code)) {variablesegment <- stringr::str_c("code=", chemical_code)} 
+  if (!is.null(CCG_code) & is.null(chemical_code)) {variablesegment <- stringr::str_c("&org=", CCG_code)}
+  if (!is.null(CCG_code) & !is.null(CCG_code)) {variablesegment <- stringr::str_c("code=", chemical_code, "&org=", CCG_code)}
   if (is.null(chemical_code) & is.null(CCG_code)) {warning("chemical_code and/or CCG_code required")}
-  str_c("https://openprescribing.net/api/1.0/", "spending_by_ccg/?", variablesegment, "&format=csv") %>%
+  stringr::str_c("https://openprescribing.net/api/1.0/", "spending_by_ccg/?", variablesegment, "&format=csv") %>%
     getURL() %>%
     textConnection() %>%
     read.csv()

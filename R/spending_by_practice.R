@@ -16,21 +16,21 @@
 #' spending_by_practice(CCG_code = "03V")
 #' Or a variation of the above (with at least 1 practice_code, date_code, or CCG_code).
 spending_by_practice <- function(BNF_section_code = NULL, chemical_code = NULL, presentation_code = NULL, practice_code = NULL, CCG_code = NULL, date_code = NULL){
-  if (!is.null(BNF_section_code)){variablesegment1 <- str_c("&code=", BNF_section_code)}
-  if (!is.null(chemical_code)){variablesegment2 <- str_c("&code=", chemical_code)} 
-  if (!is.null(presentation_code)){variablesegment3 <- str_c("&code=", presentation_code)}
-  if (!is.null(practice_code)){variablesegment4 <- str_c("&org=", practice_code)} 
-  if (!is.null(CCG_code)){variablesegment5 <- str_c("&org=", CCG_code)} 
-  if (!is.null(date_code)){variablesegment6 <- str_c("&date=", date_code)} 
+  if (!is.null(BNF_section_code)){variablesegment1 <- stringr::str_c("&code=", BNF_section_code)}
+  if (!is.null(chemical_code)){variablesegment2 <- stringr::str_c("&code=", chemical_code)} 
+  if (!is.null(presentation_code)){variablesegment3 <- stringr::str_c("&code=", presentation_code)}
+  if (!is.null(practice_code)){variablesegment4 <- stringr::str_c("&org=", practice_code)} 
+  if (!is.null(CCG_code)){variablesegment5 <- stringr::str_c("&org=", CCG_code)} 
+  if (!is.null(date_code)){variablesegment6 <- stringr::str_c("&date=", date_code)} 
   if (is.null(practice_code) & is.null(date_code) & is.null(CCG_code)){warning("You must specify either an organisation (practice_code), or a date (date_code).")}
-  variablesegment <- str_c(
+  variablesegment <- stringr::str_c(
     if(exists("variablesegment1")){variablesegment1},
     if(exists("variablesegment2")){variablesegment2},
     if(exists("variablesegment3")){variablesegment3},
     if(exists("variablesegment4")){variablesegment4},
     if(exists("variablesegment5")){variablesegment5},
     if(exists("variablesegment6")){variablesegment6})
-  str_c("https://openprescribing.net/api/1.0/", "spending_by_practice/?", variablesegment, "&format=csv") %>%
+  stringr::str_c("https://openprescribing.net/api/1.0/", "spending_by_practice/?", variablesegment, "&format=csv") %>%
     getURL() %>%
     textConnection() %>%
     read.csv()

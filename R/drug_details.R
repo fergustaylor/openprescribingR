@@ -15,16 +15,16 @@
 #' Or a variation of the above (with at least 1 name, chemical_or_presentation_code, BNF_section_code, or exact_name_or_code).
 #' N.B For now the use of multiple terms in one category requires "&q=", e.g drug_details(name="lipid&q=drug")
 drug_details <- function(name = NULL, chemical_or_presentation_code = NULL, BNF_section_code = NULL, exact_name_or_code = NULL){
-  if (!is.null(name)){variablesegment1 <- str_c("&q=", name)}
-  if (!is.null(chemical_or_presentation_code)){variablesegment2 <- str_c("&q=", chemical_or_presentation_code)} 
-  if (!is.null(BNF_section_code)){variablesegment3 <- str_c("&q=", BNF_section_code)}
-  if (!is.null(exact_name_or_code)){variablesegment4 <- str_c("&q=", exact_name_or_code, "&exact=true")}
-  variablesegment <- str_c(
+  if (!is.null(name)){variablesegment1 <- stringr::str_c("&q=", name)}
+  if (!is.null(chemical_or_presentation_code)){variablesegment2 <- stringr::str_c("&q=", chemical_or_presentation_code)} 
+  if (!is.null(BNF_section_code)){variablesegment3 <- stringr::str_c("&q=", BNF_section_code)}
+  if (!is.null(exact_name_or_code)){variablesegment4 <- stringr::str_c("&q=", exact_name_or_code, "&exact=true")}
+  variablesegment <- stringr::str_c(
     if(exists("variablesegment1")){variablesegment1},
     if(exists("variablesegment2")){variablesegment2},
     if(exists("variablesegment3")){variablesegment3},
     if(exists("variablesegment4")){variablesegment4})
-  str_c("https://openprescribing.net/api/1.0/bnf_code/?", variablesegment, "&format=csv") %>%
+  stringr::str_c("https://openprescribing.net/api/1.0/bnf_code/?", variablesegment, "&format=csv") %>%
     getURL() %>%
     textConnection() %>%
     read.csv()
