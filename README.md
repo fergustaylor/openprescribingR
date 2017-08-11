@@ -1,8 +1,8 @@
 # openprescribingR
 
-OpenprescribingR is a small package to allow you to import OpenPrescribing data directly into RStudio.
+OpenprescribingR is a small package I made to allow you to import OpenPrescribing data directly into RStudio.
 
-This uses the (beta) RESTful API and is an independent package from OpenPrescribing.
+It uses the (beta) RESTful API from OpenPrescribing.
 
 You could still download it onto your desktop directly from the API, but I think that doing this in-studio makes it much easier to update the information.
 
