@@ -3,6 +3,7 @@
 #' @param BNF_section_code A code found using drug_details().
 
 #' @return Returns official names and codes of BNF sections, chemicals and presentations
+#' @export
 #' @examples
 #' All BNF sections, chemicals and presentations matching a name (case-insensitive) = drug_details(name= "lipid")
 #' All chemicals and presentations matching a code = drug_details(chemical_or_presentation_code= "...")

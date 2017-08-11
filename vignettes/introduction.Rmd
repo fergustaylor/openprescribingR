@@ -1,4 +1,4 @@
----
+install_github("callumgwtaylor/hdxr")---
 title: "Introduction"
 author: "Fergus Taylor"
 date: "`r Sys.Date()`"

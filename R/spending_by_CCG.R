@@ -3,6 +3,7 @@
 #' @param chemical_code A code found using drug_details().
 #' @param CCG_code A code found using organisation_codes().
 #' @return Returns spending and items by CCG by month.
+#' @export
 #' @examples
 #' spending_by_CCG(chemical_code = "0212000AA") 
 #' spending_by_CCG(CCG_code = "03V")

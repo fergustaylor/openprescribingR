@@ -2,6 +2,7 @@
 #' 
 #' @param BNF_code A code found using drug_details(). Or the BNF.
 #' @return Returns total spending and items by month.
+#' @export
 #' @examples
 #' spending_by_code() 
 #' spending_by_code(BNF_code = "0212")
