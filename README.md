@@ -4,7 +4,7 @@ OpenprescribingR is a small package I made to import OpenPrescribing.net data di
 
 It uses the (beta) RESTful API from OpenPrescribing.
 
-You could still download it onto your desktop directly from the API, but I think that doing this in-studio makes it much easier to update the information.
+You could still download it onto your desktop directly from the API, but I think that doing this in-studio makes it much more reproduceable.
 
 The package is split into the look-up and the data import functions.
 ('Information API' and 'Spending API')
@@ -43,6 +43,8 @@ Further explanation on the terms used here - [https://openprescribing.net/api/](
 Essential reading on [https://openprescribing.net/caution/](https://openprescribing.net/caution/)
 
 [![Picture](openpres.png)](https://openprescribing.net/ "https://openprescribing.net/")
+
+A guide to using OpenPrescribing.net by Ben Goldacre. (Links to youtube).
 
 [![A short walk-through on OpenPrescribing.net](openpres2.png)](https://www.youtube.com/watch?v=U-hvuEfUUOM "A short walk-through on OpenPrescribing.net")
 
