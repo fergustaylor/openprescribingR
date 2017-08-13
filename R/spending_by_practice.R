@@ -1,7 +1,7 @@
 #'Queries from August 2010 to date and returns total spending and items by practice by month.
 #'You must specify either an organisation, or a date.
 #'
-#' @param BNF_section_code An ID unique to a section found using drug_details().
+#' @param BNF_section_code A BNF section, or the ID unique to a section found using drug_details().
 #' @param chemical_code An ID unique to a chemical found using drug_details().
 #' @param presentation_code An ID unique to a presentation found using drug_details().
 #' @param practice_code A code/ID unique to a practice found using organisation_codes().

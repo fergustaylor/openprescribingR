@@ -10,7 +10,7 @@ spending_by_practice(BNF_section_code = NULL, chemical_code = NULL,
   date_code = NULL)
 }
 \arguments{
-\item{BNF_section_code}{An ID unique to a section found using drug_details().}
+\item{BNF_section_code}{A BNF section, or the ID unique to a section found using drug_details().}
 
 \item{chemical_code}{An ID unique to a chemical found using drug_details().}
 

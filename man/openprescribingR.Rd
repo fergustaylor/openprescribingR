@@ -11,7 +11,7 @@ OpenprescribingR: A small package for OpenPrescribing data directly.
 \section{openprescribingR Functions}{
 
 
-* drug_details(name = NULL, chemical_section_or_presentation_code = NULL, BNF_section_code = NULL, exact_name_or_code = NULL)
+* drug_details(name = NULL, chemical_section_or_presentation_code = NULL, BNF_section = NULL, exact_name_or_code = NULL)
 
 * organisation_codes(organisation_code_or_name = NULL, CCG_code_or_name = NULL, practice_code_or_name = NULL, exact_name_or_code = NULL)
 
