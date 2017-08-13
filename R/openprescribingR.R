@@ -14,6 +14,7 @@
 #' 
 #' * spending_by_practice(BNF_section_code = NULL, chemical_code = NULL, presentation_code = NULL, practice_code = NULL, CCG_code = NULL, date_code = NULL)
 #' 
+#' * CCG_boundaries_or_location(CCG_code = NULL, practice_code = NULL)
 #' @docType package
 #' @name openprescribingR
 NULL
