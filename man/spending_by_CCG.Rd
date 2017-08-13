@@ -4,12 +4,13 @@
 \alias{spending_by_CCG}
 \title{Queries from April 2013 to date and returns spending and items by CCG by month.}
 \usage{
-spending_by_CCG(chemical_code = NULL, CCG_code = NULL)
+spending_by_CCG(chemical_section_or_presentation_code = NULL,
+  CCG_code = NULL)
 }
 \arguments{
-\item{chemical_code}{A code found using drug_details().}
+\item{chemical_section_or_presentation_code}{An ID unique to BNF sections, chemicals or presentation found using drug_details().}
 
-\item{CCG_code}{A code found using organisation_codes().}
+\item{CCG_code}{A code/ID found using organisation_codes().}
 }
 \value{
 Returns spending and items by CCG by month.
@@ -18,7 +19,7 @@ Returns spending and items by CCG by month.
 Queries from April 2013 to date and returns spending and items by CCG by month.
 }
 \examples{
-spending_by_CCG(chemical_code = "0212000AA") 
+spending_by_CCG(chemical_section_or_presentation_code = "0212000AA") 
 spending_by_CCG(CCG_code = "03V")
-spending_by_CCG(chemical_code = "0212000AA", CCG_code = "03V")
+spending_by_CCG(chemical_section_or_presentation_code = "0212000AA", CCG_code = "03V")
 }
