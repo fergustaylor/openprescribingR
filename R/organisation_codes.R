@@ -1,17 +1,17 @@
 #'Search for details about a CCG or practice by code or name.
 #'
-#' @param organisation_code_or_name A code found using drug_details().
-#' @param CCG_code_or_name A code found using drug_details().
-#' @param practice_code_or_name A code found using drug_details().
-#' @param exact_name_or_code A code found using drug_details().
+#' @param organisation_code_or_name The CCG/Practice's unique code, or part of its name.
+#' @param CCG_code_or_name The CCG unique code, or part of its name.
+#' @param practice_code_or_name The CCG unique code, or part of its name.
+#' @param exact_name_or_code The CCG/Practice's exact code, or name.
 #' @return Returns details about a CCG or practice by code or name.
 #' @importFrom magrittr "%>%"
 #' @export
 #' @examples
-#' All organisations matching a code or name = organisation_codes(organisation_code_or_name= "...")
-#' All CCGs matching a code or name = organisation_codes(CCG_code_or_name= "...")
-#' #' All practices matching a code or name = organisation_codes(practice_code_or_name= "...")
-#' All organisations exactly matching a code or name = organisation_codes(exact_name_or_code= "...")
+#' All organisations matching a code or name = organisation_codes(organisation_code_or_name= "Beaumont")
+#' All CCGs matching a code or name = organisation_codes(CCG_code_or_name= "Gloucester")
+#' #' All practices matching a code or name = organisation_codes(practice_code_or_name= "Gloucester")
+#' All organisations exactly matching a code or name = organisation_codes(exact_name_or_code= "99H")
 #' Or a variation of the above (with at least 1 organisation_code_or_name, CCG_code_or_name, practice_code_or_name, or exact_name_or_code).
 #' N.B For now the use of multiple terms in one category requires "&q=", e.g organisation_codes(organisation_code_or_name= "Beaumont&q=Gloucester")
 organisation_codes <- function(organisation_code_or_name = NULL, CCG_code_or_name = NULL, practice_code_or_name = NULL, exact_name_or_code = NULL){

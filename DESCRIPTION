@@ -10,7 +10,8 @@ Imports:
     RCurl,
     tidyverse,
     stringr,
-    magrittr
+    magrittr,
+    rjson
 Authors@R: person("Fergus", "Taylor", email = "fergustay@gmail.com", role = c("aut", "cre"))
 License: MIT
 Encoding: UTF-8

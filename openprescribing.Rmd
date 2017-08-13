@@ -8,6 +8,7 @@ output: html_notebook
 library(RCurl)
 library(tidyverse)
 library(stringr)
+library(rjson)
 ```
 
 Using the (beta) RESTful API and a few lines of R, I can create a small function to download and import OpenPrescribing data directly into RStudio.
@@ -202,5 +203,31 @@ read.csv()
 list_size(list_size_by_code = "03V")
 ```
 
-##CCG Boundraries are unavailable for now
-THe only thing I haven't sorted is the CCG Boundaries, "Search for the boundaries of a CCG, or location of a practice, by code. Returns GeoJSON."
+##CCG boundaries
+Search for the boundaries of a CCG, or location of a practice, by code. Returns GeoJSON.
+
+E.g Boundaries of all CCGs =
+CCG_boundaries_or_location()
+Or
+Boundaries of an individual CCG =
+CCG_boundaries_or_location(CCG_code = "99H")
+Or
+Location (approximate) of a practice, or practices in a CCG, by code =
+CCG_boundaries_or_location(CCG_code = "99H", practice_code = "P87003")
+
+```{r}
+CCG_boundaries_or_location <- function(CCG_code = NULL, practice_code = NULL){
+
+if (is.null(CCG_code) & is.null(practice_code)) {variablesegment <- str_c("org_type=ccg")}
+
+if (!is.null(CCG_code) & is.null(practice_code)) {variablesegment <- str_c("org_type=ccg&q=", CCG_code)}
+  
+if (is.null(CCG_code) & !is.null(practice_code)) {variablesegment <- str_c("q=", practice_code)}
+
+if (!is.null(CCG_code) & !is.null(practice_code)) {variablesegment <- str_c("q=", CCG_code, ",", practice_code)}
+
+str_c("https://openprescribing.net/api/1.0/", "org_location/?", variablesegment) %>%
+readLines() %>%
+rjson::fromJSON()
+}
+```

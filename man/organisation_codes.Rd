@@ -9,13 +9,13 @@ organisation_codes(organisation_code_or_name = NULL,
   exact_name_or_code = NULL)
 }
 \arguments{
-\item{organisation_code_or_name}{A code found using drug_details().}
+\item{organisation_code_or_name}{The CCG/Practice's unique code, or part of its name.}
 
-\item{CCG_code_or_name}{A code found using drug_details().}
+\item{CCG_code_or_name}{The CCG unique code, or part of its name.}
 
-\item{practice_code_or_name}{A code found using drug_details().}
+\item{practice_code_or_name}{The CCG unique code, or part of its name.}
 
-\item{exact_name_or_code}{A code found using drug_details().}
+\item{exact_name_or_code}{The CCG/Practice's exact code, or name.}
 }
 \value{
 Returns details about a CCG or practice by code or name.
@@ -24,10 +24,10 @@ Returns details about a CCG or practice by code or name.
 Search for details about a CCG or practice by code or name.
 }
 \examples{
-All organisations matching a code or name = organisation_codes(organisation_code_or_name= "...")
-All CCGs matching a code or name = organisation_codes(CCG_code_or_name= "...")
-#' All practices matching a code or name = organisation_codes(practice_code_or_name= "...")
-All organisations exactly matching a code or name = organisation_codes(exact_name_or_code= "...")
+All organisations matching a code or name = organisation_codes(organisation_code_or_name= "Beaumont")
+All CCGs matching a code or name = organisation_codes(CCG_code_or_name= "Gloucester")
+#' All practices matching a code or name = organisation_codes(practice_code_or_name= "Gloucester")
+All organisations exactly matching a code or name = organisation_codes(exact_name_or_code= "99H")
 Or a variation of the above (with at least 1 organisation_code_or_name, CCG_code_or_name, practice_code_or_name, or exact_name_or_code).
 N.B For now the use of multiple terms in one category requires "&q=", e.g organisation_codes(organisation_code_or_name= "Beaumont&q=Gloucester")
 }
