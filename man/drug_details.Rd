@@ -4,30 +4,30 @@
 \alias{drug_details}
 \title{Search for the official name and code of BNF sections, chemicals and presentations.}
 \usage{
-drug_details(name = NULL, chemical_or_presentation_code = NULL,
+drug_details(name = NULL, chemical_section_or_presentation_code = NULL,
   BNF_section_code = NULL, exact_name_or_code = NULL)
 }
 \arguments{
-\item{name}{A code found using drug_details().}
+\item{name}{Drug name.}
 
-\item{chemical_or_presentation_code}{A code found using drug_details().}
+\item{chemical_section_or_presentation_code}{An ID unique to BNF sections, chemicals or presentations.}
 
-\item{BNF_section_code}{A code found using drug_details().}
+\item{BNF_section_code}{An ID unique to BNF sections.}
 
-\item{exact_name_or_code}{Search by an exact name/code.}
+\item{exact_name_or_code}{Search by an exact name/code(ID).}
 }
 \value{
-Returns official names and codes of BNF sections, chemicals and presentations
+Returns official names and codes(ID) of BNF sections, chemicals and presentations.
 }
 \description{
 Search for the official name and code of BNF sections, chemicals and presentations.
 }
 \examples{
 All BNF sections, chemicals and presentations matching a name (case-insensitive) = drug_details(name= "lipid")
-All chemicals and presentations matching a code = drug_details(chemical_or_presentation_code= "...")
+All chemicals and presentations matching a code = drug_details(chemical_section_or_presentation_code= "...")
 All BNF sections matching a code = drug_details(BNF_section_code= "...")
 All BNF sections matching a code = drug_details(BNF_section_code= "...")
 All BNF sections, chemicals and presentations exactly matching a name or code = drug_details(exact_name_or_code= "...")
-Or a variation of the above (with at least 1 name, chemical_or_presentation_code, BNF_section_code, or exact_name_or_code).
+Or a variation of the above (with at least 1 name, chemical_section_or_presentation_code, BNF_section_code, or exact_name_or_code).
 N.B For now the use of multiple terms in one category requires "&q=", e.g drug_details(name="lipid&q=drug")
 }
