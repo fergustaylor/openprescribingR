@@ -26,8 +26,10 @@ __These functions give details on drugs/organisations/list sizes.__
  *  organisation_codes()
  
  *  list_size()
+ 
+ *  CCG_boundaries_or_location()
 
-__These functions allow you to load data.__
+__These functions allow you to load spending data.__
 
  *  spending_by_CCG()
 
@@ -35,9 +37,10 @@ __These functions allow you to load data.__
 
  *  spending_by_practice()
 
-CCG Boundraries are unavailable for now
+Update 13/08/16: CCG boundary/practice location function was added. Returns GeoJSON.
 
 An introduction to the tool is given here - [https://fergustaylor.github.io/blog/post4](https://fergustaylor.github.io/blog/post4)
+And the new CCG boundary/practice location function - [https://fergustaylor.github.io/blog/post5](https://fergustaylor.github.io/blog/post5)
 
 Further explanation on the terms used here - [https://openprescribing.net/api/](https://openprescribing.net/api/)
 
