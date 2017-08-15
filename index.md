@@ -1,4 +1,13 @@
-# openprescribingR
+<style>
+    iframe {
+        width: 500px;
+        height: 500px;
+    }
+</style>
+<iframe src="https://fergustaylor.github.io/post5map.html">
+</iframe>
+
+[See the map.](https://fergustaylor.github.io/post5map.html)
 
 OpenprescribingR is a small package I made to import OpenPrescribing.net data directly into RStudio.
 
