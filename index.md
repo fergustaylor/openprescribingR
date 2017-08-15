@@ -46,8 +46,6 @@ __These functions allow you to load spending data.__
 
  *  spending_by_practice()
 
-Update 13/08/16: CCG boundary/practice location function was added. Returns GeoJSON.
-
 An introduction to the tool is given here - [https://fergustaylor.github.io/blog/post4](https://fergustaylor.github.io/blog/post4)
 And the new CCG boundary/practice location function - [https://fergustaylor.github.io/blog/post5](https://fergustaylor.github.io/blog/post5)
 
