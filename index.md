@@ -55,9 +55,7 @@ Essential reading on [https://openprescribing.net/caution/](https://openprescrib
 
 [![Picture](openpres.png)](https://openprescribing.net/ "https://openprescribing.net/")
 
-A guide to using OpenPrescribing.net by Ben Goldacre. (Links to youtube).
-
-[![A short walk-through on OpenPrescribing.net](openpres2.png)](https://www.youtube.com/watch?v=U-hvuEfUUOM "A short walk-through on OpenPrescribing.net")
+<iframe width="560" height="315" src="https://www.youtube.com/embed/U-hvuEfUUOM" frameborder="0" allowfullscreen></iframe>
 
 [Other projects I'm working on.](https://fergustaylor.github.io) 
 
