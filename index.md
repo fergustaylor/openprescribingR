@@ -59,3 +59,5 @@ A guide to using OpenPrescribing.net by Ben Goldacre. (Links to youtube).
 
 [![A short walk-through on OpenPrescribing.net](openpres2.png)](https://www.youtube.com/watch?v=U-hvuEfUUOM "A short walk-through on OpenPrescribing.net")
 
+[Other projects I'm working on.](https://fergustaylor.github.io) 
+
