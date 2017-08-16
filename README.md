@@ -40,6 +40,7 @@ __These functions allow you to load spending data.__
 Update 13/08/16: CCG boundary/practice location function was added. Returns GeoJSON.
 
 An introduction to the tool is given here - [https://fergustaylor.github.io/blog/post4](https://fergustaylor.github.io/blog/post4)
+
 And the new CCG boundary/practice location function - [https://fergustaylor.github.io/blog/post5](https://fergustaylor.github.io/blog/post5)
 
 Further explanation on the terms used here - [https://openprescribing.net/api/](https://openprescribing.net/api/)
