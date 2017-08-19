@@ -1,4 +1,13 @@
-# openprescribingR
+<style>
+    iframe {
+        width: 500px;
+        height: 500px;
+    }
+</style>
+<iframe src="https://fergustaylor.github.io/post5map.html">
+</iframe>
+
+[See the map.](https://fergustaylor.github.io/post5map.html)
 
 OpenprescribingR is a small package I made to import OpenPrescribing.net data directly into RStudio.
 
@@ -37,8 +46,6 @@ __These functions allow you to load spending data.__
 
  *  spending_by_practice()
 
-Update 13/08/16: CCG boundary/practice location function was added. Returns GeoJSON.
-
 An introduction to the tool is given here - [https://fergustaylor.github.io/blog/post4](https://fergustaylor.github.io/blog/post4)
 And the new CCG boundary/practice location function - [https://fergustaylor.github.io/blog/post5](https://fergustaylor.github.io/blog/post5)
 
@@ -48,7 +55,7 @@ Essential reading on [https://openprescribing.net/caution/](https://openprescrib
 
 [![Picture](openpres.png)](https://openprescribing.net/ "https://openprescribing.net/")
 
-A guide to using OpenPrescribing.net by Ben Goldacre. (Links to youtube).
+<iframe width="560" height="315" src="https://www.youtube.com/embed/U-hvuEfUUOM" frameborder="0" allowfullscreen></iframe>
 
-[![A short walk-through on OpenPrescribing.net](openpres2.png)](https://www.youtube.com/watch?v=U-hvuEfUUOM "A short walk-through on OpenPrescribing.net")
+[Other projects I'm working on.](https://fergustaylor.github.io) 
 

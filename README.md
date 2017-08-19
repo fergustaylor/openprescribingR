@@ -6,6 +6,9 @@ It uses the (beta) RESTful API from OpenPrescribing.
 
 You could still download it onto your desktop directly from the API, but if you're going to be doing analysis with R, I think that doing this in-studio makes it much easier and more reproduceable.
 
+UPDATE 19/08/17: Working on a validation function, so that you can double-check your evidence against the NHS Digital versions.
+OBviously this would involve downloading each month's (depending on what you'd imported), and then cross-referencing it against your selection so would only be worth running once you're not going to make any further changes.
+
 The package is split into the look-up and the data import functions.
 
 Installation:
@@ -40,6 +43,7 @@ __These functions allow you to load spending data.__
 Update 13/08/16: CCG boundary/practice location function was added. Returns GeoJSON.
 
 An introduction to the tool is given here - [https://fergustaylor.github.io/blog/post4](https://fergustaylor.github.io/blog/post4)
+
 And the new CCG boundary/practice location function - [https://fergustaylor.github.io/blog/post5](https://fergustaylor.github.io/blog/post5)
 
 Further explanation on the terms used here - [https://openprescribing.net/api/](https://openprescribing.net/api/)
