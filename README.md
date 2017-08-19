@@ -6,6 +6,9 @@ It uses the (beta) RESTful API from OpenPrescribing.
 
 You could still download it onto your desktop directly from the API, but if you're going to be doing analysis with R, I think that doing this in-studio makes it much easier and more reproduceable.
 
+UPDATE 19/08/17: Working on a validation function, so that you can double-check your evidence against the NHS Digital versions.
+OBviously this would involve downloading each month's (depending on what you'd imported), and then cross-referencing it against your selection so would only be worth running once you're not going to make any further changes.
+
 The package is split into the look-up and the data import functions.
 
 Installation:
