@@ -7,7 +7,7 @@
 spending_by_code(BNF_code = NULL)
 }
 \arguments{
-\item{BNF_code}{A code found using drug_details(). Or the BNF.}
+\item{BNF_code}{A code found using drug_details(). Or the BNF. chemical_section_or_presentation_code or BNF_section. Can be a section, or the specific code/id for each BNF section/drug/presentation.}
 }
 \value{
 Returns total spending and items by month.
@@ -18,4 +18,8 @@ Queries from August 2010 to date and returns total spending and items by month.
 \examples{
 spending_by_code() 
 spending_by_code(BNF_code = "0212")
+spending_by_code(BNF_code = "0212000AA")
+spending_by_code(BNF_code = "0212000AABB")
+spending_by_code(BNF_code = "2.4")
+spending_by_code(BNF_code = drug_details(BNF_section = "2.4")$id[1])
 }
