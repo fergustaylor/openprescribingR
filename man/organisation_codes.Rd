@@ -13,7 +13,7 @@ organisation_codes(organisation_code_or_name = NULL,
 
 \item{CCG_code_or_name}{The CCG unique code, or part of its name.}
 
-\item{practice_code_or_name}{The CCG unique code, or part of its name.}
+\item{practice_code_or_name}{The practice unique code, or part of its name.}
 
 \item{exact_name_or_code}{The CCG/Practice's exact code, or name.}
 }
