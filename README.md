@@ -40,11 +40,8 @@ __These functions allow you to load spending data.__
 
  *  spending_by_practice()
 
-Update 13/08/16: CCG boundary/practice location function was added. Returns GeoJSON.
-
-An introduction to the tool is given here - [https://fergustaylor.github.io/blog/post4](https://fergustaylor.github.io/blog/post4)
-
-And the new CCG boundary/practice location function - [https://fergustaylor.github.io/blog/post5](https://fergustaylor.github.io/blog/post5)
+Read the [wiki](https://github.com/fergustaylor/openprescribingR/wiki) for more help.
+Or try `help('openprescribingR')`
 
 Further explanation on the terms used here - [https://openprescribing.net/api/](https://openprescribing.net/api/)
 
