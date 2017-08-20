@@ -22,4 +22,5 @@ spending_by_code(BNF_code = "0212000AA")
 spending_by_code(BNF_code = "0212000AABB")
 spending_by_code(BNF_code = "2.4")
 spending_by_code(BNF_code = drug_details(BNF_section = "2.4")$id[1])
+Read the [wiki](https://github.com/fergustaylor/openprescribingR/wiki) for more help.
 }

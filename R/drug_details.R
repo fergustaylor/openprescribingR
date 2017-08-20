@@ -14,6 +14,7 @@
 #' All BNF sections, chemicals and presentations exactly matching a name or code = drug_details(exact_name_or_code= "212000AA")
 #' Or a variation of the above (with at least 1 name, chemical_section_or_presentation_code, BNF_section, or exact_name_or_code).
 #' N.B For now the use of multiple terms in one category requires "&q=", e.g drug_details(name="lipid&q=drug")
+#' Read the [wiki](https://github.com/fergustaylor/openprescribingR/wiki) for more help.
 drug_details <- function(name = NULL, chemical_section_or_presentation_code = NULL, BNF_section = NULL, exact_name_or_code = NULL){
   if (!is.null(name)){variablesegment1 <- stringr::str_c("&q=", name)}
   if (!is.null(chemical_section_or_presentation_code)){variablesegment2 <- stringr::str_c("&q=", chemical_section_or_presentation_code)} 

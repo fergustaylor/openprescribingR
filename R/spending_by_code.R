@@ -11,6 +11,7 @@
 #' spending_by_code(BNF_code = "0212000AABB")
 #' spending_by_code(BNF_code = "2.4")
 #' spending_by_code(BNF_code = drug_details(BNF_section = "2.4")$id[1])
+#' Read the [wiki](https://github.com/fergustaylor/openprescribingR/wiki) for more help.
 spending_by_code <- function(BNF_code = NULL){
   if (!is.null(BNF_code)) {variablesegment <- stringr::str_c("?code=", BNF_code)} 
   else {variablesegment <- "?format=api"}

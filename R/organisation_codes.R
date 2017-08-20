@@ -14,6 +14,7 @@
 #' All organisations exactly matching a code or name = organisation_codes(exact_name_or_code= "99H")
 #' Or a variation of the above (with at least 1 organisation_code_or_name, CCG_code_or_name, practice_code_or_name, or exact_name_or_code).
 #' N.B For now the use of multiple terms in one category requires "&q=", e.g organisation_codes(organisation_code_or_name= "Beaumont&q=Gloucester")
+#' Read the [wiki](https://github.com/fergustaylor/openprescribingR/wiki) for more help.
 organisation_codes <- function(organisation_code_or_name = NULL, CCG_code_or_name = NULL, practice_code_or_name = NULL, exact_name_or_code = NULL){
   if (!is.null(organisation_code_or_name)){variablesegment1 <- stringr::str_c("&q=", organisation_code_or_name)}
   if (!is.null(CCG_code_or_name)){variablesegment2 <- stringr::str_c("&q=", CCG_code_or_name, "&org_type=CCG")} 

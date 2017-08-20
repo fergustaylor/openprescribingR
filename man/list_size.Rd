@@ -22,4 +22,5 @@ Total list size for all CCGs = list_size()
 Total list size for all practices by practice code, or CCG code = list_size(list_size_by_code= "...")
 ASTRO-PU cost and items for practices by practice code, or CCG code = list_size(ASTRO_PU_by_code= "...")
 Or a variation of the above.
+Read the [wiki](https://github.com/fergustaylor/openprescribingR/wiki) for more help.
 }

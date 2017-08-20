@@ -19,6 +19,7 @@
 #' N.B A BNF section gives a prefix to the chemical, which gives a prefix to the presentation/product format.
 #'  e.g. "0212" are lipid-regulating drugs, "0212000AA" is Rosuvastatin Calcium, "0212000AAAAAAAA" is Rosuvastatin Calc_Tab 10mg. 
 #' N.B2 The data is often released over 2 months from the current date, and use the -01 of each month as date.
+#' Read the [wiki](https://github.com/fergustaylor/openprescribingR/wiki) for more help.
 spending_by_practice <- function(BNF_section_code = NULL, chemical_code = NULL, presentation_code = NULL, practice_code = NULL, CCG_code = NULL, date_code = NULL){
   if (!is.null(BNF_section_code)){variablesegment1 <- stringr::str_c("&code=", BNF_section_code)}
   if (!is.null(chemical_code)){variablesegment2 <- stringr::str_c("&code=", chemical_code)} 

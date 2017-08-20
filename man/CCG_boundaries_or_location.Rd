@@ -22,4 +22,5 @@ All organisations matching a code or name = organisation_codes(organisation_code
 Boundaries of all CCGs = CCG_boundaries_or_location()
 Boundaries of an individual CCG = CCG_boundaries_or_location(CCG_code = "99H")
 Location (approximate) of a practice, or practices in a CCG, by code = CCG_boundaries_or_location(CCG_code = "99H", practice_code = "P87003")
+Read the [wiki](https://github.com/fergustaylor/openprescribingR/wiki) for more help.
 }

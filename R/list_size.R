@@ -10,6 +10,7 @@
 #' Total list size for all practices by practice code, or CCG code = list_size(list_size_by_code= "...")
 #' ASTRO-PU cost and items for practices by practice code, or CCG code = list_size(ASTRO_PU_by_code= "...")
 #' Or a variation of the above.
+#' Read the [wiki](https://github.com/fergustaylor/openprescribingR/wiki) for more help.
 list_size <- function(list_size_by_code = NULL, ASTRO_PU_by_code = NULL){
   if (is.null(list_size_by_code)&is.null(ASTRO_PU_by_code)){variablesegment1 <- stringr::str_c("ccg&keys=total_list_size")}
   if (!is.null(list_size_by_code)){variablesegment2 <- stringr::str_c("practice&org=", list_size_by_code, "&keys=total_list_size")} 

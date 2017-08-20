@@ -1,0 +1,12 @@
+---
+title: "R Notebook"
+---
+
+Managed to import/plot using GeoJSON, but since I'm not particularly familiar with the format I used the api address..
+
+```{r}
+st_read("https://openprescribing.net/api/1.0/org_location/?org_type=ccg") %>%
+st_as_sf()
+```
+
+To create a simple features collection, which made things much easier.
