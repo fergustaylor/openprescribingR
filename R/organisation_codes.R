@@ -2,7 +2,7 @@
 #'
 #' @param organisation_code_or_name The CCG/Practice's unique code, or part of its name.
 #' @param CCG_code_or_name The CCG unique code, or part of its name.
-#' @param practice_code_or_name The CCG unique code, or part of its name.
+#' @param practice_code_or_name The practice unique code, or part of its name.
 #' @param exact_name_or_code The CCG/Practice's exact code, or name.
 #' @return Returns details about a CCG or practice by code or name.
 #' @importFrom magrittr "%>%"
