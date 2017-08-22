@@ -52,6 +52,6 @@ leaflet() %>%
   )
 ```
 
-[See the map.](https://fergustaylor.github.io/post6map.html)
+[See the map.](https://fergustaylor.github.io/blogimages/post6map.html)
 
 [Go back to the post.](https://fergustaylor.github.io/blog/post6.html)
