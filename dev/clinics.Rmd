@@ -1,0 +1,57 @@
+---
+output:
+  html_document:
+    toc: yes
+    toc_depth: 2
+    toc_float: yes
+---
+
+#Create the data
+```{r, eval=FALSE, message=FALSE, warning=FALSE}
+library(dplyr)
+library(readr)
+library(leaflet)
+library(sf)
+
+marchdata <- read_csv("~/Downloads/T201703ADDR+BNFT.CSV", 
+    col_names = FALSE) %>%
+  dplyr::rename(postcode = X8)
+
+#marchdata <- http://datagov.ic.nhs.uk/presentation/2017_03_March/T201703ADDR+BNFT.CSV %>%
+#RCurl::getURL() %>%
+#    textConnection() %>%
+#    read.csv()
+
+ccg <- sf::st_read("https://openprescribing.net/api/1.0/org_location/?org_type=ccg") %>%
+  sf::st_as_sf()
+
+#temp <- tempfile()
+#download.file("https://www.freemaptools.com/download/full-postcodes/ukpostcodes.zip",temp)
+#ukpostcodes <- read.csv(unz(temp, "ukpostcodes.csv"))
+#unlink(temp)
+
+ukpostcodes <- read_csv("~/Dropbox/Arran/alldata/ukpostcodes.csv")
+dataset <- left_join(marchdata, ukpostcodes, by="postcode")
+```
+
+#Create the map
+```{r, eval=FALSE, message=FALSE, warning=FALSE}
+leaflet() %>% 
+  setView(-1.341739, 53.104565, zoom = 6) %>% 
+  addTiles()  %>% 
+  addMarkers(
+    lng = dataset$longitude, lat = dataset$latitude,
+    label = dataset$X3, group = "clinics") %>%
+  addPolygons(
+    data=ccg, group = "ccgs", 
+    label = ccg$name, fillOpacity = 0.5, weight=2,
+    highlightOptions = highlightOptions(color = "black", weight = 2)) %>%
+   addLayersControl(
+    baseGroups = c("ccgs", "clinics", "Nothing"),
+    options = layersControlOptions(collapsed = TRUE)
+  )
+```
+
+[See the map.](https://fergustaylor.github.io/post6map.html)
+
+[Go back to the post.](https://fergustaylor.github.io/blog/post6.html)
