@@ -15,6 +15,11 @@ It uses the (beta) RESTful API from OpenPrescribing.
 
 You could still download it onto your desktop directly from the API, but if you're going to be doing analysis with R, I think that doing this in-studio makes it much easier and more reproduceable.
 
+UPDATE 23/08/17: Added an `as_sf` parameter to return a Simple Features Collection by specification instead. 
+
+UPDATE 19/08/17: Working on a validation function, so that you can double-check your evidence against the NHS Digital versions.
+OBviously this would involve downloading each month's (depending on what you'd imported), and then cross-referencing it against your selection so would only be worth running once you're not going to make any further changes.
+
 The package is split into the look-up and the data import functions.
 
 Installation:
@@ -46,9 +51,9 @@ __These functions allow you to load spending data.__
 
  *  spending_by_practice()
 
-An introduction to the tool is given here - [https://fergustaylor.github.io/blog/post4](https://fergustaylor.github.io/blog/post4)
+Read the [wiki](https://github.com/fergustaylor/openprescribingR/wiki) for more help.
 
-And the new CCG boundary/practice location function - [https://fergustaylor.github.io/blog/post5](https://fergustaylor.github.io/blog/post5)
+Or try `help('openprescribingR')`
 
 Further explanation on the terms used here - [https://openprescribing.net/api/](https://openprescribing.net/api/)
 
