@@ -4,7 +4,8 @@
 \alias{CCG_boundaries_or_location}
 \title{Search for the boundaries of a CCG, or location of a practice, by code. Returns GeoJSON.}
 \usage{
-CCG_boundaries_or_location(CCG_code = NULL, practice_code = NULL)
+CCG_boundaries_or_location(CCG_code = NULL, practice_code = NULL,
+  as_sf = TRUE/FALSE)
 }
 \arguments{
 \item{CCG_code}{A code assigned to each CCG, found using organisation_details().}
@@ -22,5 +23,9 @@ All organisations matching a code or name = organisation_codes(organisation_code
 Boundaries of all CCGs = CCG_boundaries_or_location()
 Boundaries of an individual CCG = CCG_boundaries_or_location(CCG_code = "99H")
 Location (approximate) of a practice, or practices in a CCG, by code = CCG_boundaries_or_location(CCG_code = "99H", practice_code = "P87003")
+CCG_boundaries_or_location(as_sf = TRUE)
+CCG_boundaries_or_location(CCG_code = "99H", as_sf = TRUE)
+CCG_boundaries_or_location(CCG_code = "99H", practice_code = "P87003", as_sf = TRUE)
+CCG_boundaries_or_location(practice_code = "P87003", as_sf = TRUE)
 Read the [wiki](https://github.com/fergustaylor/openprescribingR/wiki) for more help.
 }

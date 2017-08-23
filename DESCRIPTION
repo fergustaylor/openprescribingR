@@ -11,7 +11,8 @@ Imports:
     tidyverse,
     stringr,
     magrittr,
-    rjson
+    rjson,
+    sf
 Authors@R: person("Fergus", "Taylor", email = "fergustay@gmail.com", role = c("aut", "cre"))
 License: MIT
 Encoding: UTF-8
