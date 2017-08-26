@@ -6,6 +6,8 @@ It uses the (beta) RESTful API from OpenPrescribing.
 
 You could still download it onto your desktop directly from the API, but if you're going to be doing analysis with R, I think that doing this in-studio makes it much easier and more reproduceable.
 
+UPDATE 26/08/17: Added a `location_function` with an `as_sf` parameter to return CCG_boundaries_or_location() data about every practice in a CCG.
+
 UPDATE 23/08/17: Added an `as_sf` parameter to return a Simple Features Collection by specification instead. 
 
 UPDATE 19/08/17: Working on a validation function, so that you can double-check your evidence against the NHS Digital versions.
