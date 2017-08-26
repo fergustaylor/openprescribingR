@@ -26,10 +26,13 @@ Boundaries of all CCGs = CCG_boundaries_or_location()
 Boundaries of an individual CCG = CCG_boundaries_or_location(CCG_code = "99H")
 Location (approximate) of a practice, or practices in a CCG, by code = CCG_boundaries_or_location(CCG_code = "99H", practice_code = "P87003")
 Location (approximate) of a practice by code = CCG_boundaries_or_location(practice_code = "P87003")
- 
+Location (approximate) of all practices in a CCG, by code = location_function(CCG_code = "99H")
+N.B ^ location_function is a bodge using organistation_codes to return a CCG_boundaries_or_location() for all practices in a CCG, but does require a bit more time to download the look-up it needs.
+
 CCG_boundaries_or_location(as_sf = TRUE)
 CCG_boundaries_or_location(CCG_code = "99H", as_sf = TRUE)
 CCG_boundaries_or_location(CCG_code = "99H", practice_code = "P87003", as_sf = TRUE)
 CCG_boundaries_or_location(practice_code = "P87003", as_sf = TRUE)
+location_function(CCG_code = "99H", as_sf = TRUE)
 Read the [wiki](https://github.com/fergustaylor/openprescribingR/wiki) for more help.
 }

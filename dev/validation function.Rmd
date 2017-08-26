@@ -1,0 +1,61 @@
+---
+title: "R Notebook"
+---
+
+```{r, message=FALSE}
+library(stringr)
+```
+
+take the spending dates associated with the used data
+```{r}
+datacollection <- function(useddata){
+  rbind(lapply(unique(useddata$date), nhsdigitaldata))
+  }
+```
+
+```{r}
+nhsdigitaldata <- function(date){
+datecode <- stringr::str_c(substr(as.character(date), 1, 4), substr(as.character(date), 6, 7))
+  
+  if (substr(datecode, 5, 6) == "01") {
+  month <- "January"
+} else if (substr(datecode, 5, 6) == "02") {
+  month <- "February"
+} else if (substr(datecode, 5, 6) == "03") {
+  month <- "March"
+} else if (substr(datecode, 5, 6) == "04") {
+  month <- "April"
+} else if (substr(datecode, 5, 6) == "05") {
+  month <- "May"
+}else if (substr(datecode, 5, 6) == "06") {
+  month <- "June"
+}else if (substr(datecode, 5, 6) == "07") {
+  month <- "July"
+}else if (substr(datecode, 5, 6) == "08") {
+  month <- "August"
+}else if (substr(datecode, 5, 6) == "09") {
+  month <- "September"
+}else if (substr(datecode, 5, 6) == "10") {
+  month <- "October"
+}else if (substr(datecode, 5, 6) == "11") {
+  month <- "November"
+}else if (substr(datecode, 5, 6) == "12") {
+  month <- "December"
+}else {
+  print("error:did you put it in brackets?")
+}
+datecode2 <- stringr::str_c(substr(datecode, 1, 4), "_", substr(datecode, 5, 6), "_", month)
+  stringr::str_c("http://datagov.ic.nhs.uk/presentation/", datecode2, "/T", datecode, "ADDR+BNFT.CSV") %>%
+    RCurl::getURL() %>%
+    textConnection() %>%
+    read.csv(header=FALSE)
+}
+```
+
+#old input
+nhsdigitaldata(201703)
+
+#new input
+```{r}
+nhsdigitaldata("2017-03-01")
+```
