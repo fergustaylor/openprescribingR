@@ -1,0 +1,116 @@
+---
+title: "R Notebook"
+---
+
+```{r, message=FALSE}
+library(tidyverse)
+library(openprescribingR)
+library(sf)
+library(gridExtra)
+library(directlabels)
+```
+
+```{r, message=FALSE}
+spendingdata <- spending_by_practice(BNF_section_code = "2.12", practice_code = "G82732")
+
+ccgpracticespendingdata <- spending_by_practice(BNF_section_code = "2.12", CCG_code = "99J")
+
+ccgpracticespendingdata2 <- spending_by_practice(BNF_section_code = "2.12", CCG_code = "99J") %>%
+  group_by(date) %>% 
+  summarise(`Q1`=quantile(actual_cost, probs=0.25),
+            `Q2`=quantile(actual_cost, probs=0.5),
+            `Q3`=quantile(actual_cost, probs=0.75),
+            `Min`=min(actual_cost),
+            `Max`=max(actual_cost),
+            `Total`=sum(actual_cost)) %>%
+  mutate(Clinic = spendingdata[, 'actual_cost'])
+ccgpracticespendingdata2$date <- as.Date(ccgpracticespendingdata2$date)
+
+tidyr <- ccgpracticespendingdata2 %>%
+  gather(key = group, value = actual_cost, -date, -Total) %>%
+  select(-Total)
+tidyr$date <- as.Date(tidyr$date)
+
+#add national average
+
+spending_by_code(BNF_code = "2.12") %>%
+  group_by(date)
+
+spending_by_CCG(chemical_section_or_presentation_code = "2.12") %>%
+  group_by(date) %>%
+  summarise(`Average`= mean(actual_cost))
+                     
+locations <- location_function(CCG_code = "99J", as_sf = TRUE) %>%
+mutate(
+    lon = map_dbl(geometry, ~st_centroid(.x)[[1]]),
+    lat = map_dbl(geometry, ~st_centroid(.x)[[2]])
+    )
+
+ccgspendingdata <- spending_by_CCG(chemical_section_or_presentation_code = "2.12", CCG_code = "99J")
+```
+
+```{r}
+ccgpracticespendingdata$date <- as.Date(ccgpracticespendingdata$date)
+plot1 = ccgpracticespendingdata %>%
+  ggplot() +
+  geom_step(aes(x= date, y=actual_cost, group=row_id)) +
+  geom_step(data = filter(tidyr, group=="Clinic"|group=="Q2"),
+            aes(x= date, y=actual_cost, group=group, colour=group), 
+            size=2) + 
+  geom_text(data = filter(ccgpracticespendingdata, date == "2017-05-01"), aes(label = row_id, x=date, y=actual_cost, 
+    vjust = 1, hjust = 0, angle=45)) +
+  theme(axis.text.x=element_text(angle=45, hjust = 1)) +
+  labs(title="Actual_cost spending on 'BNF Section 2.12 Drugs - Lipid-Regulating Drugs'")
+plot2 = ccgpracticespendingdata %>%
+  ggplot() +
+   geom_ribbon(data = ccgpracticespendingdata2, 
+              aes(x = date, ymin = Min, ymax = Max), fill = "grey80", alpha=0.75) +
+  geom_ribbon(data = ccgpracticespendingdata2, 
+              aes(x = date, ymin = Q1, ymax = Q3), fill = "grey70", alpha=0.75) +
+  geom_line(aes(group = row_id, x=date, y=actual_cost)) +
+  geom_line(data = filter(tidyr, group=="Clinic"|group=="Q2"),
+            aes(x= date, y=actual_cost, group=group, colour=group), 
+            size=2) + 
+  geom_text(data = filter(ccgpracticespendingdata, date == "2017-05-01"), aes(label = row_id, x=date, y=actual_cost, 
+    vjust = 1, hjust = 0, angle=45)) +
+  theme(axis.text.x=element_text(angle=45, hjust = 1)) +
+  labs(title="Actual_cost spending on 'BNF Section 2.12 Drugs - Lipid-Regulating Drugs'")
+grid.arrange(plot1, plot2)
+```
+
+```{r}
+plot3 <- tidyr %>%
+ggplot(aes(x= date, y=actual_cost, group=group)) +
+  geom_step() +
+  geom_text(data = filter(tidyr, date == "2017-05-01"), 
+            aes(label = group, x=date, y=actual_cost, vjust = 1, hjust = 0, angle=45)) +
+  theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks=element_blank()) +
+  labs(y = " ") +
+  labs(title="Actual_cost spending on 'BNF Section 2.12 Drugs - Lipid-Regulating Drugs'")
+
+plot4 <- tidyr %>%
+ggplot() +
+  geom_line(aes(x= date, y=actual_cost, group=group)) +
+  geom_text(data = filter(tidyr, date == "2017-05-01"), aes(label = group, x=date, y=actual_cost, vjust = 1, hjust = 0, angle=45)) +
+  theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks=element_blank())
+
+plot5 <- tidyr %>%
+  filter(group=="Clinic"|group=="Q2") %>%
+ggplot() +
+  geom_ribbon(data = ccgpracticespendingdata2, 
+              aes(x = date, ymin = Min, ymax = Max), fill = "grey80", alpha=0.75) +
+  geom_ribbon(data = ccgpracticespendingdata2, 
+              aes(x = date, ymin = Q1, ymax = Q3), fill = "grey70", alpha=0.75) +
+  geom_line(aes(x= date, y=actual_cost, group=group, colour=group), size=2) +
+  geom_text(data = filter(tidyr, date == "2017-05-01"), 
+            aes(label = group, x=date, y=actual_cost, vjust = 1, hjust = 0, angle=45)) +
+  theme(axis.text.x=element_text(angle=45, hjust = 1)) +
+  theme(legend.position="none") +
+  labs(y = " ")
+
+grid.arrange(plot3, plot4, plot5)
+```

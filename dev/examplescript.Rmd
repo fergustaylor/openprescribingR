@@ -1,0 +1,73 @@
+---
+title: "R Notebook"
+---
+
+```{r}
+library(devtools)
+devtools::install_github("fergustaylor/openprescribingR")
+library(openprescribingR)
+library(ggplot2)
+library(gridExtra)
+help(openprescribingR)
+library(tidyverse)
+library(sf)
+```
+
+```{r}
+drug_details(name="lipid")
+```
+
+```{r}
+organisation_codes(practice_code_or_name = "WISH")
+```
+
+```{r, message=FALSE}
+spendingdata <- spending_by_practice(BNF_section_code = "2.12", practice_code = "G82732")
+spendingdata$date <- as.Date(spendingdata$date)
+
+ccgpracticespendingdata <- spending_by_practice(BNF_section_code = "2.12", CCG_code = "99J")
+ccgpracticespendingdata$date <- as.Date(ccgpracticespendingdata$date)
+
+CCGdata <- location_function(CCG_code = "99J", as_sf = TRUE) %>%
+mutate(
+    lon = map_dbl(geometry, ~st_centroid(.x)[[1]]),
+    lat = map_dbl(geometry, ~st_centroid(.x)[[2]])
+    )
+
+ccgpracticespendingdata2 <- spending_by_practice(BNF_section_code = "2.12", CCG_code = "99J") %>%
+  group_by(date) %>% 
+  summarise(`Q1`=quantile(actual_cost, probs=0.25),
+            `Q2`=quantile(actual_cost, probs=0.5),
+            `Q3`=quantile(actual_cost, probs=0.75),
+            `Min`=min(actual_cost),
+            `Max`=max(actual_cost),
+            `Total`=sum(actual_cost)) %>%
+  mutate(Clinic = spendingdata[, 'actual_cost'])
+ccgpracticespendingdata2$date <- as.Date(ccgpracticespendingdata2$date)
+
+tidyr <- ccgpracticespendingdata2 %>%
+  gather(key = group, value = actual_cost, -date, -Total) %>%
+  select(-Total)
+tidyr$date <- as.Date(tidyr$date)
+```
+
+```{r}
+ggplot(CCGdata) +
+  geom_sf() +
+  geom_sf(data = CCGdata[57,], aes(colour = "blue")) +
+  coord_sf(crs= 4326, datum = sf::st_crs(4326)) +
+  geom_text(data = CCGdata[57,], aes(x=lon, y=lat, label=name), hjust = 0, nudge_x = 0.05) + 
+  theme(legend.position="none") +
+  coord_sf(crs= 4326, datum = sf::st_crs(4326))
+
+ggplot(spendingdata) +
+  geom_ribbon(data = ccgpracticespendingdata2, 
+              aes(x = date, ymin = Min, ymax = Max), alpha=0.75, fill = "grey80") +
+  geom_ribbon(data = ccgpracticespendingdata2, 
+              aes(x = date, ymin = Q1, ymax = Q3), alpha=0.75, fill = "grey70") +
+  geom_line(data = filter(tidyr, group=="Clinic"|group=="Q2"),
+            aes(x= date, y=actual_cost, group=group, colour=group), alpha=0.5, size=2) + 
+  theme(axis.text.x=element_text(angle=45, hjust = 1)) +
+  labs(title="Actual_cost on 'BNF Section 2.12 Drugs - Lipid-Regulating Drugs'")
+```
+
