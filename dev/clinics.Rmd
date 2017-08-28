@@ -12,6 +12,7 @@ library(dplyr)
 library(readr)
 library(leaflet)
 library(sf)
+library(tidyverse)
 
 marchdata <- read_csv("~/Downloads/T201703ADDR+BNFT.CSV", 
     col_names = FALSE) %>%
