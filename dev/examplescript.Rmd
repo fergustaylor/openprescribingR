@@ -1,8 +1,12 @@
 ---
 title: "R Notebook"
+html_document:
+    toc: yes
+    toc_float: yes
+    code_folding: hide
 ---
 
-```{r}
+```{r, message=FALSE}
 library(devtools)
 devtools::install_github("fergustaylor/openprescribingR")
 library(openprescribingR)
