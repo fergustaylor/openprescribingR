@@ -1,10 +1,11 @@
+
 <style>
     iframe {
         width: 500px;
         height: 500px;
     }
 </style>
-<iframe src="https://fergustaylor.github.io/blogimages/post5map">
+<iframe src="https://fergustaylor.github.io/blogimages/post5map/">
 </iframe>
 
 [See the map.](https://fergustaylor.github.io/blogimages/post5map)
