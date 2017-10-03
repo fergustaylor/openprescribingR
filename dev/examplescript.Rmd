@@ -58,7 +58,7 @@ tidyr$date <- as.Date(tidyr$date)
 ```{r}
 ggplot(CCGdata) +
   geom_sf() +
-  geom_sf(data = CCGdata[57,], aes(colour = "blue")) +
+  geom_sf(data = CCGdata[57,], colour = "red") +
   coord_sf(crs= 4326, datum = sf::st_crs(4326)) +
   geom_text(data = CCGdata[57,], aes(x=lon, y=lat, label=name), hjust = 0, nudge_x = 0.05) + 
   theme(legend.position="none") +
