@@ -54,9 +54,9 @@ Further explanation on the terms used here - [https://openprescribing.net/api/](
 
 Essential reading on [https://openprescribing.net/caution/](https://openprescribing.net/caution/)
 
-{{< img src="https://fergustaylor.github.io/Arran/Rplot11.5.png" >}}
-
-[![Picture](openpres.png)](https://openprescribing.net/ "https://openprescribing.net/")
+<a href="https://openprescribing.net/">
+<img src="openpres.png" alt="https://openprescribing.net/" style="width:100%;height:auto;">
+</a>
 
 <iframe width="100%" height="550" src="https://www.youtube.com/embed/U-hvuEfUUOM" frameborder="0" allowfullscreen></iframe>
 
