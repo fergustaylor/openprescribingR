@@ -1,11 +1,5 @@
 
-<style>
-    iframe {
-        width: 500px;
-        height: 500px;
-    }
-</style>
-<iframe src="https://fergustaylor.github.io/blogimages/post5map/">
+<iframe src="https://fergustaylor.github.io/blogimages/post5map/" width="100%" height="650px" >
 </iframe>
 
 [See the map.](https://fergustaylor.github.io/blogimages/post5map)
@@ -60,9 +54,11 @@ Further explanation on the terms used here - [https://openprescribing.net/api/](
 
 Essential reading on [https://openprescribing.net/caution/](https://openprescribing.net/caution/)
 
+{{< img src="https://fergustaylor.github.io/Arran/Rplot11.5.png" >}}
+
 [![Picture](openpres.png)](https://openprescribing.net/ "https://openprescribing.net/")
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/U-hvuEfUUOM" frameborder="0" allowfullscreen></iframe>
+<iframe width="100%" height="550" src="https://www.youtube.com/embed/U-hvuEfUUOM" frameborder="0" allowfullscreen></iframe>
 
 [Other projects I'm working on.](https://fergustaylor.github.io) 
 
