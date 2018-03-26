@@ -1,0 +1,30 @@
+---
+title: "R Notebook"
+---
+
+Replacing geom_sf with geom_polygon
+```{r}
+veronoi <- deldir(ccggeom$lon, ccggeom$lat)
+
+ccggeom %>%
+ggplot() +
+  geom_polygon_interactive(data = ccgpolygons, aes(x = long, y = lat, group = group)) +
+  coord_sf(crs= 4326, datum = sf::st_crs(4326)) +
+  geom_segment(
+    aes(x = x1, y = y1, xend = x2, yend = y2),
+    size = 0.25,
+    data = veronoi$dirsgs,
+    linetype = 1,
+    color= "#18515E") +
+  geom_point(aes(x = lon, y = lat), color = "grey")
+rm(veronoi)
+```
+
+#vor_desc <- tile.list(veronoi)
+#lapply(1:(length(vor_desc)), function(i) {
+#    tmp <- cbind(vor_desc[[i]]$x, vor_desc[[i]]$y)
+#    tmp <- rbind(tmp, tmp[1,])
+#    Polygons(list(Polygon(tmp)), ID=i)
+#  }) -> vor_polygons
+#rm(vor_desc)
+#st_voronoi(ccggeom)

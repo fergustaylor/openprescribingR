@@ -2,7 +2,7 @@
 title: "R Notebook"
 ---
 
-```{r, message=FALSE}
+```{r, message=FALSE, warning=FALSE}
 library(openprescribingR)
 library(tidyverse)
 library(sf)
@@ -40,6 +40,7 @@ load("clinics.Rda")
 ```
 
 ```{r}
+#Produce the polygons
 nc_centroids <- st_centroid(ccggeom)
 bbox_polygon <- function(x) {
   bb <- sf::st_bbox(x)
@@ -55,137 +56,92 @@ bbox_polygon <- function(x) {
 }
 box <- st_sfc(bbox_polygon(nc_centroids))
 v <- st_voronoi(st_union(nc_centroids), box)
-
-blep <- st_intersection(st_cast(v), st_union(ccggeom)) %>%
+rm(nc_centroids, box)
+polygons <- st_intersection(st_cast(v), st_union(ccggeom)) %>%
   as_Spatial() %>%
   fortify()
+
+
+ccggeom$id <- str_c("ID", 1:nrow(ccggeom))
+for (i in 1:length(ccggeom$id)){
+polygons$name[!is.na(match(polygons$id, ccggeom$id[i]))] <- as.character(ccggeom$name[i])
+}
+rm(v)
 ```
 
 ```{r}
-ccggeom %>%
-ggplot() +
-  geom_polygon_interactive(data = blep, aes(x = long, y = lat, group = group)) +
+plot11 = ggplot(ccggeom) +
+  geom_polygon_interactive(data = polygons, aes(x = long, y = lat, group = group, tooltip = name)) +
   coord_sf(crs= 4326, datum = sf::st_crs(4326)) +
   geom_point(aes(x = lon, y = lat), color = "grey", size=0.1)
+ggiraph(code = {print(plot11)}, width_svg = 17.07, height_svg = 13.46) %>%
+htmlwidgets::saveWidget("plot11.html")
+rm(polygons)
 ```
 
 ```{r}
 cliniclist <- do.call("rbind", clinics)
 cliniclist2 <- cliniclist %>%
   filter(org_type == "clinic")
+rm(cliniclist)
 ```
 
 ```{r}
-example2 <- fortify(as_Spatial(ccggeom$geometry))
+ccgpolygons <- fortify(as_Spatial(ccggeom$geometry))
 
 ccggeom$id <- str_c("ID", 1:207)
 
 for (i in 1:length(ccggeom$id)){
-example2$name[!is.na(match(example2$id, ccggeom$id[i]))] <- as.character(ccggeom$name[i])
+ccgpolygons$name[!is.na(match(ccgpolygons$id, ccggeom$id[i]))] <- as.character(ccggeom$name[i])
 }
-```
-
-```{r}
-veronoi <- deldir(ccggeom$lon, ccggeom$lat)
-```
-
-```{r}
-gg_point =  ggplot(ccggeom) +
-  geom_sf() +
-  geom_point_interactive(aes(x = lon, y = lat, tooltip = name)) +
-  coord_sf(crs= 4326, datum = sf::st_crs(4326))
-ggiraph(code = {print(gg_point)}, width_svg = 17.07, height_svg = 13.46)
 ```
 
 #Plot 1
 ```{r}
-gg_point =  ggplot(ccggeom) +
-  geom_polygon_interactive(data = example2, aes(x = long, y = lat, group = group, tooltip = name)) +
+plot1 =  ggplot(ccggeom) +
+  geom_polygon_interactive(data = ccgpolygons, aes(x = long, y = lat, group = group, tooltip = name)) +
   coord_sf(crs= 4326, datum = sf::st_crs(4326))
-ggiraph(code = {print(gg_point)}, width_svg = 17.07, height_svg = 13.46)
+ggiraph(code = {print(plot1)}, width_svg = 17.07, height_svg = 13.46) %>%
+htmlwidgets::saveWidget("plot1.html")
 ```
 
 #Plot 2
 ```{r}
-gg_point =  ggplot(ccggeom) +
-  geom_polygon_interactive(data = example2, aes(x = long, y = lat, group = group, tooltip = name)) +
+plot2 =  ggplot(ccggeom) +
+  geom_polygon_interactive(data = ccgpolygons, aes(x = long, y = lat, group = group, tooltip = name)) +
   geom_sf(data=cliniclist2, color = "grey", size=0.1) +
   coord_sf(crs= 4326, datum = sf::st_crs(4326))
-ggiraph(code = {print(gg_point)}, width_svg = 17.07, height_svg = 13.46)
-#htmlwidgets::saveWidget()
+ggiraph(code = {print(plot2)}, width_svg = 17.07, height_svg = 13.46) %>%
+htmlwidgets::saveWidget("plot2.html")
 ```
 
 ```{r}
 nc_centroids <- cliniclist2$geometry
-bbox_polygon <- function(x) {
-  bb <- sf::st_bbox(x)
-  p <- matrix(
-    c(bb["xmin"], bb["ymin"], 
-      bb["xmin"], bb["ymax"],
-      bb["xmax"], bb["ymax"], 
-      bb["xmax"], bb["ymin"], 
-      bb["xmin"], bb["ymin"]),
-    ncol = 2, byrow = T
-  )
-  sf::st_polygon(list(p))
-}
 box <- st_sfc(bbox_polygon(nc_centroids))
 v <- st_voronoi(st_union(nc_centroids), box)
-
-blep2 <- st_intersection(st_cast(v), st_union(ccggeom)) %>%
-#blep2 <- st_intersection(st_cast(v), st_union(cliniclist2$geometry)) %>%
+rm(box, nc_centroids)
+clinicpolygons <- st_intersection(st_cast(v), st_union(ccggeom)) %>%
   as_Spatial() %>%
   fortify()
+rm(v)
+
+cliniclist2$name <- str_replace_all(cliniclist2$name, "'", " ")
+
+cliniclist2$id <- str_c("ID", 1:nrow(cliniclist2))
+for (i in 1:length(cliniclist2$id)){
+clinicpolygons$name[!is.na(match(clinicpolygons$id, cliniclist2$id[i]))] <- as.character(cliniclist2$name[i])
+}
 ```
 
 ```{r}
-gg_point =  ggplot(ccggeom) +
-  geom_polygon_interactive(data = blep2, aes(x = long, y = lat, group = group)) +
+plot6 =  ggplot(ccggeom) +
+  geom_polygon_interactive(data = clinicpolygons, aes(x = long, y = lat, group = group, tooltip = name)) +
   geom_sf(data=cliniclist2, color = "grey", size=0.1) +
   coord_sf(crs= 4326, datum = sf::st_crs(4326))
-ggiraph(code = {print(gg_point)}, width_svg = 17.07, height_svg = 13.46)
+ggiraph(code = {print(plot6)}, width_svg = 17.07, height_svg = 13.46) %>%
+htmlwidgets::saveWidget("plot6.html")
 ```
 
-class(st_geometry(ccggeom))
-also works with; example1 <- as_Spatial(ccggeom$geometry)
-coord_sf(crs= 4326, datum = sf::st_crs(4326))
-
-Replacing geom_sf with geom_polygon
-```{r}
-ccggeom %>%
-ggplot() +
-  geom_polygon_interactive(data = example2, aes(x = long, y = lat, group = group)) +
-  coord_sf(crs= 4326, datum = sf::st_crs(4326)) +
-  geom_segment(
-    aes(x = x1, y = y1, xend = x2, yend = y2),
-    size = 0.25,
-    data = veronoi$dirsgs,
-    linetype = 1,
-    color= "#18515E") +
-  geom_point(aes(x = lon, y = lat), color = "grey")
-```
-
-```{r}
-vor_desc <- tile.list(veronoi)
-lapply(1:(length(vor_desc)), function(i) {
-    tmp <- cbind(vor_desc[[i]]$x, vor_desc[[i]]$y)
-    tmp <- rbind(tmp, tmp[1,])
-    Polygons(list(Polygon(tmp)), ID=i)
-  }) -> vor_polygons
-
-st_voronoi(ccggeom)
-```
-
-```{r}
-gg_point =  filter(dataframe, date == "2017-05-01") %>%
-  ggplot() +
-  geom_sf(aes(fill = costperperson)) +
-  geom_point_interactive(aes(x = lon, y = lat, tooltip = label)) +
-  theme(legend.position="none")
-ggiraph(code = {print(gg_point)}, width_svg = 17.07, height_svg = 13.46)
-```
-
-rest on post 6. 
 ```{r, message=FALSE}
 spendingdata <- spending_by_practice(BNF_section_code = "2.12", practice_code = "G82732")
 spendingdata$date <- as.Date(spendingdata$date)
@@ -218,7 +174,26 @@ tidyr$date <- as.Date(tidyr$date)
 ```
 
 ```{r}
-gg_point = ggplot(CCGdata) +
+nc_centroids <- st_centroid(CCGdata[2:86,])
+box <- st_sfc(bbox_polygon(nc_centroids))
+v <- st_voronoi(st_union(nc_centroids), box)
+rm(nc_centroids, box)
+
+Kentvoronoipolygon <- st_intersection(st_cast(v), st_union(CCGdata[1,])) %>%
+  as_Spatial() %>%
+  fortify()
+
+#ccggeom$id <- str_c("ID", 1:length(ccggeom$id))
+#for (i in 1:length(ccggeom$id)){
+#polygons$name[!is.na(match(polygons$id, ccggeom$id[i]))] <- as.character(ccggeom$name[i])
+#}
+#rm(v)
+
+#overlay names
+#css changes for points
+
+
+plot7 = ggplot() +
   geom_sf(data = CCGdata[1,]) +
   geom_point_interactive(data = CCGdata[2:86,], aes(x = lon, y = lat, tooltip = name)) +
   geom_point_interactive(data = CCGdata[57,], aes(x = lon, y = lat, tooltip = name), colour = "red") +
@@ -226,11 +201,32 @@ gg_point = ggplot(CCGdata) +
   theme(legend.position="none") +
   coord_sf(crs= 4326, datum = sf::st_crs(4326))
 
-ggiraph(code = {print(gg_point)}, width_svg = 17.07, height_svg = 14.75)
+ggiraph(code = {print(plot7)}, width_svg = 17.07, height_svg = 14.75) %>%
+htmlwidgets::saveWidget("plot7.html")
+
+plot7.5 = ggplot() +
+  geom_sf(data = CCGdata[1,]) +
+  geom_point_interactive(data = CCGdata[2:86,], aes(x = lon, y = lat, tooltip = name)) +
+  geom_point_interactive(data = CCGdata[57,], aes(x = lon, y = lat, tooltip = name), colour = "red") +
+  geom_polygon_interactive(data = Kentvoronoipolygon, aes(x = long, y = lat, group = group), 
+                           #alpha = 0.1
+                           ) +
+  geom_text(data = CCGdata[57,], aes(x=lon, y=lat, label=name), hjust = 0, nudge_x = 0.05) + 
+  theme(legend.position="none") +
+  coord_sf(crs= 4326, datum = sf::st_crs(4326))
+
+ggiraph(code = {print(plot7.5)}, width_svg = 17.07, height_svg = 14.75) %>%
+htmlwidgets::saveWidget("plot7.5.html")
+
+rm(CCGdata)
 ```
 
 ```{r}
-gg_point = ggplot(spendingdata) +
+#add points to graph
+#add voronoi to graph
+#css change to point within voronoi
+
+plot8 = ggplot(spendingdata) +
   geom_ribbon(data = ccgpracticespendingdata2, 
               aes(x = date, ymin = Min, ymax = Max), alpha=0.75, fill = "grey80") +
   geom_ribbon(data = ccgpracticespendingdata2, 
@@ -241,84 +237,85 @@ gg_point = ggplot(spendingdata) +
             aes(x= date, y=actual_cost, group=group, colour=group, tooltip = label), colour = "grey80") +
   geom_line_interactive(data = filter(tidyr, group=="Clinic"|group=="Q2"),
             aes(x= date, y=actual_cost, group=group, colour=group, tooltip = label), alpha=0.5, size=2) + 
-  theme(axis.text.x=element_text(angle=45, hjust = 1)) +
-  labs(title="Actual_cost on 'BNF Section 2.12 Drugs - Lipid-Regulating Drugs'")
-
-ggiraph(code = {print(gg_point)}, width_svg = 17.07, height_svg = 7.375)
-```
-
-```{r}
-gg_point = ggplot(spendingdata) +
-  geom_ribbon(data = ccgpracticespendingdata2, 
-              aes(x = date, ymin = Min, ymax = Max), alpha=0.75, fill = "grey80") +
-  geom_ribbon(data = ccgpracticespendingdata2, 
-              aes(x = date, ymin = Q1, ymax = Q3), alpha=0.75, fill = "grey70") +
-  geom_line_interactive(data = filter(tidyr, group=="Q3"|group=="Q1"),
-            aes(x= date, y=actual_cost, group=group, colour=group, tooltip = label), colour = "grey70") +
-  geom_line_interactive(data = filter(tidyr, group=="Max"|group=="Min"),
-            aes(x= date, y=actual_cost, group=group, colour=group, tooltip = label), colour = "grey80") +
-  geom_line_interactive(data = filter(tidyr, group=="Clinic"|group=="Q2"),
-            aes(x= date, y=actual_cost, group=group, colour=group, tooltip = label), alpha=0.5, size=2) + 
-  theme(axis.text.x=element_text(angle=45, hjust = 1)) +
-  labs(title="Actual_cost on 'BNF Section 2.12 Drugs - Lipid-Regulating Drugs'")
-
-ggiraph(code = {print(gg_point)}, width_svg = 17.07, height_svg = 7.375)
-```
-
-
-
-gg_point = ccgpracticespendingdata %>%
-  ggplot() +
-  geom_step_interactive(aes(x= date, y=actual_cost, group=row_id, tooltip = label)) +
-  geom_step_interactive(data = filter(tidyr, group=="Clinic"|group=="Q2"),
-            aes(x= date, y=actual_cost, group=group, colour=group, tooltip = label), 
-            size=2) + 
-  geom_text(data = filter(ccgpracticespendingdata, date == "2017-05-01"), aes(label = row_id, x=date, y=actual_cost, 
-    vjust = 1, hjust = 0, angle=45)) +
   theme(axis.text.x=element_text(angle=45, hjust = 1)) +
   labs(title="Actual_cost spending on 'BNF Section 2.12 Drugs - Lipid-Regulating Drugs'")
 
-ggiraph(code = {print(gg_point)})
+ggiraph(code = {print(plot8)}, width_svg = 17.07, height_svg = 7.375) %>%
+htmlwidgets::saveWidget("plot8.html") 
+```
 
-N.B no geom_step_interactive function.
+```{r}
+#overlay voronoi
+#add css changes to nearest point
+plot8.5 = ggplot(spendingdata) +
+  geom_ribbon(data = ccgpracticespendingdata2, aes(x = date, ymin = Min, ymax = Max), alpha=0.75, fill = "grey80") +
+  geom_ribbon(data = ccgpracticespendingdata2, aes(x = date, ymin = Q1, ymax = Q3), alpha=0.75, fill = "grey70") +
+  geom_line_interactive(data = filter(tidyr, group=="Q3"|group=="Q1"), aes(x= date, y=actual_cost, group=group, colour=group), colour = "grey70") +
+  geom_point_interactive(data = filter(tidyr, group=="Q3"|group=="Q1"), aes(x= date, y=actual_cost, group=group, tooltip = label), colour = "grey70", alpha=0.5, size=2) +
+  geom_line_interactive(data = filter(tidyr, group=="Max"|group=="Min"), aes(x= date, y=actual_cost, group=group, colour=group), colour = "grey80") +
+  geom_point_interactive(data = filter(tidyr, group=="Max"|group=="Min"), aes(x= date, y=actual_cost, group=group, tooltip = label), colour = "grey80", alpha=0.5, size=2) +
+  geom_line_interactive(data = filter(tidyr, group=="Clinic"|group=="Q2"), aes(x= date, y=actual_cost, group=group, colour=group), alpha=0.5, size=2) + 
+    geom_point_interactive(data = filter(tidyr, group=="Clinic"|group=="Q2"), aes(x= date, y=actual_cost, group=group, colour=group, tooltip = label), alpha=0.5, size=2) +
+  theme(axis.text.x=element_text(angle=45, hjust = 1)) +
+  labs(title="Actual_cost spending on 'BNF Section 2.12 Drugs - Lipid-Regulating Drugs'")
+
+ggiraph(code = {print(plot8.5)}, width_svg = 17.07, height_svg = 7.375) %>%
+htmlwidgets::saveWidget("plot8.5.html") 
+```
 
 ```{r}
 ccgpracticespendingdata$date <- as.Date(ccgpracticespendingdata$date)
 ccgpracticespendingdata <- ccgpracticespendingdata %>%
   mutate(label = str_c(date, ": ", row_name, ", ", actual_cost))
-
-ccgpracticespendingdata2 <- ccgpracticespendingdata2 %>%
-  mutate(label = str_c(date, ": ", row_name, ", ", actual_cost))
-
 ccgpracticespendingdata$label <- str_replace_all(ccgpracticespendingdata$label, "'", " ")
 tidyr$label <- str_replace_all(tidyr$label, "'", " ")
 ```
 
-
 ```{r}
-gg_point = ccgpracticespendingdata %>%
+plot10 = ccgpracticespendingdata %>%
   ggplot() +
-   geom_ribbon(data = ccgpracticespendingdata2, 
+  geom_ribbon(data = ccgpracticespendingdata2, 
               aes(x = date, ymin = Min, ymax = Max), fill = "grey80", alpha=0.75) +
   geom_ribbon(data = ccgpracticespendingdata2, 
               aes(x = date, ymin = Q1, ymax = Q3), fill = "grey70", alpha=0.75) +
-  
-  
   geom_line_interactive(aes(group = row_id, x=date, y=actual_cost, tooltip = label)) +
-  
+  geom_point_interactive(aes(group = row_id, x=date, y=actual_cost, tooltip = label), alpha=0.1, size=2) +
   geom_line_interactive(data = filter(tidyr, group=="Clinic"|group=="Q2"),
-            aes(x= date, y=actual_cost, group=group, colour=group, tooltip = label), 
-            size=2) + 
-  
-  
-  geom_text(data = filter(ccgpracticespendingdata, date == "2017-05-01"), aes(label = row_id, x=date, y=actual_cost, 
-    vjust = 1, hjust = 0, angle=45)) +
+            aes(x= date, y=actual_cost, group=group, colour=group), size=2) + 
+  geom_point_interactive(data = filter(tidyr, group=="Clinic"|group=="Q2"),
+    aes(x= date, y=actual_cost, group=group, colour=group, tooltip = label), alpha=0.1, size=2) +
+  #geom_text(data = filter(ccgpracticespendingdata, date == "2017-05-01"), aes(label = row_id, x=date, y=actual_cost, vjust = 1, hjust = 0, angle=45)) +
   theme(axis.text.x=element_text(angle=45, hjust = 1)) +
   labs(title="Actual_cost spending on 'BNF Section 2.12 Drugs - Lipid-Regulating Drugs'")
 
-ggiraph(code = {print(gg_point)}, width_svg = 17.07, height_svg = 7.375)
+ggiraph(code = {print(plot10)}, width_svg = 17.07, height_svg = 7.375) %>%
+htmlwidgets::saveWidget("plot10.html")
+
+rm(ccgpracticespendingdata, ccgpracticespendingdata2, tidyr)
 ```
 
-ggiraph(code = {print(gg_point)}, width_svg = 17.07, height_svg = 8.12)
-http://auctionrepair.com/pixels.html
+#Chloropleth
+```{r}
+list <- list_size()
+list <- list[list$row_name %in% ccggeom$name,]
+list <- list$row_id %>%
+  unique() %>%
+  as.character()
 
+clinicsspending <- lapply(list, function (x){
+  spending_by_CCG(CCG_code = x, chemical_section_or_presentation_code = "7.4.5")
+} )
+
+save(clinicsspending, file="clinicsspending.Rda")
+#load("clinics.Rda")
+
+```
+
+```{r}
+plot12 =  ggplot(ccggeom) +
+  geom_polygon_interactive(data = clinicpolygons, aes(x = long, y = lat, group = group, tooltip = name)) +
+  #geom_sf(data=cliniclist2, color = "grey", size=0.1) +
+  coord_sf(crs= 4326, datum = sf::st_crs(4326))
+ggiraph(code = {print(plot12)}, width_svg = 17.07, height_svg = 13.46) %>%
+htmlwidgets::saveWidget("plot12.html")
+```
