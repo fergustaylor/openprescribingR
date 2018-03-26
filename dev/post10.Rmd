@@ -10,6 +10,7 @@ library(ggiraph)
 library(stringr)
 library(deldir)
 library(rgdal)
+library(wesanderson)
 ```
 
 ```{r}
@@ -37,6 +38,11 @@ mutate(
 
 #save(clinics, file="clinics.Rda")
 load("clinics.Rda")
+
+#add ccg to clinics
+for (i in 1:length(clinics)) {
+clinics[[i]]$ccg <- list[i]
+}
 ```
 
 ```{r}
@@ -61,7 +67,6 @@ polygons <- st_intersection(st_cast(v), st_union(ccggeom)) %>%
   as_Spatial() %>%
   fortify()
 
-
 ccggeom$id <- str_c("ID", 1:nrow(ccggeom))
 for (i in 1:length(ccggeom$id)){
 polygons$name[!is.na(match(polygons$id, ccggeom$id[i]))] <- as.character(ccggeom$name[i])
@@ -81,15 +86,16 @@ rm(polygons)
 
 ```{r}
 cliniclist <- do.call("rbind", clinics)
+rm(clinics)
 cliniclist2 <- cliniclist %>%
   filter(org_type == "clinic")
+cliniclist2 <- subset(cliniclist2, select = -c(org_type, setting))
 rm(cliniclist)
 ```
 
 ```{r}
 ccgpolygons <- fortify(as_Spatial(ccggeom$geometry))
-
-ccggeom$id <- str_c("ID", 1:207)
+ccggeom$id <- str_c("ID", 1:nrow(ccggeom))
 
 for (i in 1:length(ccggeom$id)){
 ccgpolygons$name[!is.na(match(ccgpolygons$id, ccggeom$id[i]))] <- as.character(ccggeom$name[i])
@@ -187,7 +193,7 @@ Kentvoronoipolygon <- st_intersection(st_cast(v), st_union(CCGdata[1,])) %>%
 #for (i in 1:length(ccggeom$id)){
 #polygons$name[!is.na(match(polygons$id, ccggeom$id[i]))] <- as.character(ccggeom$name[i])
 #}
-#rm(v)
+rm(v)
 
 #overlay names
 #css changes for points
@@ -302,13 +308,37 @@ list <- list$row_id %>%
   unique() %>%
   as.character()
 
-clinicsspending <- lapply(list, function (x){
-  spending_by_CCG(CCG_code = x, chemical_section_or_presentation_code = "7.4.5")
-} )
+#clinicsspending <- lapply(list[1:50], function (x){
+# spending_by_practice(CCG_code = x, BNF_section_code = "7.4.5")
+#})
 
-save(clinicsspending, file="clinicsspending.Rda")
-#load("clinics.Rda")
+#clinicsspending2 <- lapply(list[51:100], function (x){
+# spending_by_practice(CCG_code = x, BNF_section_code = "7.4.5")
+#})
 
+#clinicsspending3 <- lapply(list[101:150], function (x){
+# spending_by_practice(CCG_code = x, BNF_section_code = "7.4.5")
+#})
+
+#clinicsspending4 <- lapply(list[151:207], function (x){
+# spending_by_practice(CCG_code = x, BNF_section_code = "7.4.5")
+#})
+#spending <- c(clinicsspending, clinicsspending2, clinicsspending3, clinicsspending4)
+
+#fixing ccgs
+#for (i in 1:length(list)){
+# spending[[i]]$ccg <- list[i] 
+#}
+
+#rm(clinicsspending, clinicsspending2, clinicsspending3, clinicsspending4, list)
+#save(spending, file="spending.Rda")
+load("spending.Rda")
+```
+
+Combine dataframes
+```{r}
+clinicsbnfspending <- do.call("rbind", spending)
+rm(spending, list, i)
 ```
 
 ```{r}
@@ -318,4 +348,84 @@ plot12 =  ggplot(ccggeom) +
   coord_sf(crs= 4326, datum = sf::st_crs(4326))
 ggiraph(code = {print(plot12)}, width_svg = 17.07, height_svg = 13.46) %>%
 htmlwidgets::saveWidget("plot12.html")
+```
+
+```{r}
+selecteddata <- clinicsbnfspending %>%
+  filter(date == "2018-01-01") %>%
+  rename(name = "row_name")
+
+#ccgs in recent data
+selecteddatalist <- unique(selecteddata$ccg)
+
+#Recurring names in a specific ccg
+repeatlist <- list()
+for (i in 1:length(selecteddatalist)) {
+  repeatlist[[i]] <- selecteddata %>%
+    filter(ccg == selecteddatalist[i]) %>%
+    select('name') %>%
+    duplicated()
+  repeatlist[[i]] <- filter(selecteddata, ccg == selecteddatalist[i])$name[repeatlist[[i]]] %>% 
+    as.character()
+}
+
+#Find positions of repeats
+length <- lapply(repeatlist, length) %>%
+  unlist()
+positions <- which(length > 0)
+rm(length)
+#Filter out values which can't be fixed to a specific position
+filteredselecteddata <- selecteddata
+for (i in 1:length(positions)) {
+filteredselecteddata <- filteredselecteddata %>%
+  filter(!(ccg == selecteddatalist[positions[i]] & name == repeatlist[[positions[i]]][1]))
+}
+rm(selecteddata, selecteddatalist, repeatlist, positions)
+rm(i)
+
+left <- left_join(filteredselecteddata, cliniclist2, by=c("name", "ccg"))
+
+duplicatedlist <- left$row_id[duplicated(left$row_id)]
+duplicatedrows <- filter(left, row_id %in% duplicatedlist)
+
+#Selected first example of each row_id
+ukdata <- left[unique(left$row_id),]
+
+#Polygons
+nc_centroids <- ukdata$geometry
+box <- st_sfc(bbox_polygon(nc_centroids))
+v <- st_voronoi(st_union(nc_centroids), box)
+rm(box, nc_centroids)
+ukdatapolygons <- st_intersection(st_cast(v), st_union(ccggeom)) %>%
+  as_Spatial() %>%
+  fortify()
+rm(v)
+
+ukdatapolygons$actual_cost <- as.numeric(ukdatapolygons$actual_cost)
+
+ukdata$name <- str_replace_all(ukdata$name, "'", " ")
+
+ukdata$id <- str_c("ID", 1:nrow(ukdata))
+for (i in 1:length(ukdata$id)){
+ukdatapolygons$name[!is.na(match(ukdatapolygons$id, ukdata$id[i]))] <- as.character(ukdata$name[i])
+ukdatapolygons$actual_cost[!is.na(match(ukdatapolygons$id, ukdata$id[i]))] <- as.character(ukdata$actual_cost[i])
+}
+```
+
+```{r}
+pal <- wes_palette("Zissou", 100, type = "continuous")
+
+plot12 =  ggplot(ccggeom) +
+  geom_polygon_interactive(data = clinicpolygons, aes(x = long, y = lat, group = group, tooltip = name)) +
+  #geom_sf(data=cliniclist2, color = "grey", size=0.1) +
+  coord_sf(crs= 4326, datum = sf::st_crs(4326))
+ggiraph(code = {print(plot12)}, width_svg = 17.07, height_svg = 13.46) %>%
+htmlwidgets::saveWidget("plot12.html")
+
+plot12.5 =  ggplot(ccggeom) +
+  geom_polygon_interactive(data = ukdatapolygons, aes(x = long, y = lat, group = group, tooltip = name, fill = actual_cost)) +
+  coord_sf(crs= 4326, datum = sf::st_crs(4326)) +
+  scale_fill_gradientn(colours = pal)
+ggiraph(code = {print(plot12.5)}, width_svg = 17.07, height_svg = 13.46) %>%
+htmlwidgets::saveWidget("plot12.5.html")
 ```
