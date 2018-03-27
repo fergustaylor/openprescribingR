@@ -180,7 +180,12 @@ tidyr$date <- as.Date(tidyr$date)
 ```
 
 ```{r}
-nc_centroids <- st_centroid(CCGdata[2:86,])
+centres <- CCGdata[2:86,]
+centres <- centres %>%
+  filter(!name == "OPHTHALMOLOGY-APCOS-NOK") %>%
+  filter(!name == "INTEGRATED CARE 24 LIMITED OOH")
+
+nc_centroids <- st_centroid(centres)
 box <- st_sfc(bbox_polygon(nc_centroids))
 v <- st_voronoi(st_union(nc_centroids), box)
 rm(nc_centroids, box)
@@ -188,12 +193,13 @@ rm(nc_centroids, box)
 Kentvoronoipolygon <- st_intersection(st_cast(v), st_union(CCGdata[1,])) %>%
   as_Spatial() %>%
   fortify()
-
-#ccggeom$id <- str_c("ID", 1:length(ccggeom$id))
-#for (i in 1:length(ccggeom$id)){
-#polygons$name[!is.na(match(polygons$id, ccggeom$id[i]))] <- as.character(ccggeom$name[i])
-#}
 rm(v)
+
+#not sure why different lengths?
+#centres$id <- str_c("ID", 1:nrow(centres))
+#for (i in 1:length(centres$id)){
+#Kentvoronoipolygon$name[!is.na(match(Kentvoronoipolygon$id, centres$id[i]))] <- as.character(centres$name[i])
+#}
 
 #overlay names
 #css changes for points
@@ -210,18 +216,22 @@ plot7 = ggplot() +
 ggiraph(code = {print(plot7)}, width_svg = 17.07, height_svg = 14.75) %>%
 htmlwidgets::saveWidget("plot7.html")
 
+
+#use centre names as polygons tooltips. polygons fill = none, css change = fill change colour?
+
 plot7.5 = ggplot() +
   geom_sf(data = CCGdata[1,]) +
-  geom_point_interactive(data = CCGdata[2:86,], aes(x = lon, y = lat, tooltip = name)) +
-  geom_point_interactive(data = CCGdata[57,], aes(x = lon, y = lat, tooltip = name), colour = "red") +
-  geom_polygon_interactive(data = Kentvoronoipolygon, aes(x = long, y = lat, group = group), 
-                           #alpha = 0.1
+  geom_polygon_interactive(data = Kentvoronoipolygon, aes(x = long, y = lat, group = group, tooltip = id, data_id = id), 
+                           alpha = 0.1
                            ) +
+  geom_point(data = CCGdata[2:86,], aes(x = lon, y = lat), colour = "white") +
+  geom_point(data = CCGdata[57,], aes(x = lon, y = lat), colour = "red") +
+  
   geom_text(data = CCGdata[57,], aes(x=lon, y=lat, label=name), hjust = 0, nudge_x = 0.05) + 
   theme(legend.position="none") +
   coord_sf(crs= 4326, datum = sf::st_crs(4326))
 
-ggiraph(code = {print(plot7.5)}, width_svg = 17.07, height_svg = 14.75) %>%
+ggiraph(code = {print(plot7.5)}, hover_css = "fill:red; fill-opacity:0.5;", width_svg = 17.07, height_svg = 14.75) %>%
 htmlwidgets::saveWidget("plot7.5.html")
 
 rm(CCGdata)
@@ -410,8 +420,6 @@ for (i in 1:length(ukdata$id)){
 ukdatapolygons$name[!is.na(match(ukdatapolygons$id, ukdata$id[i]))] <- as.character(ukdata$name[i])
 ukdatapolygons$actual_cost[!is.na(match(ukdatapolygons$id, ukdata$id[i]))] <- as.character(ukdata$actual_cost[i])
 }
-
-
 
 #Label
 ukdatapolygons$label <- str_c(ukdatapolygons$name, " £", round(ukdatapolygons$actual_cost, 2))
