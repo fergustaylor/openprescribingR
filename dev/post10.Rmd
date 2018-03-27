@@ -410,6 +410,11 @@ for (i in 1:length(ukdata$id)){
 ukdatapolygons$name[!is.na(match(ukdatapolygons$id, ukdata$id[i]))] <- as.character(ukdata$name[i])
 ukdatapolygons$actual_cost[!is.na(match(ukdatapolygons$id, ukdata$id[i]))] <- as.character(ukdata$actual_cost[i])
 }
+
+
+
+#Label
+ukdatapolygons$label <- str_c(ukdatapolygons$name, " £", round(ukdatapolygons$actual_cost, 2))
 ```
 
 ```{r}
@@ -423,9 +428,19 @@ ggiraph(code = {print(plot12)}, width_svg = 17.07, height_svg = 13.46) %>%
 htmlwidgets::saveWidget("plot12.html")
 
 plot12.5 =  ggplot(ccggeom) +
-  geom_polygon_interactive(data = ukdatapolygons, aes(x = long, y = lat, group = group, tooltip = name, fill = actual_cost)) +
+  geom_polygon_interactive(data = ukdatapolygons, aes(x = long, y = lat, group = group, tooltip = label, fill = actual_cost)) +
   coord_sf(crs= 4326, datum = sf::st_crs(4326)) +
-  scale_fill_gradientn(colours = pal)
+  scale_fill_gradientn(colours = pal) +
+  labs(title="Actual_cost spending on 'BNF Section 7.4.5 Drugs'")
 ggiraph(code = {print(plot12.5)}, width_svg = 17.07, height_svg = 13.46) %>%
 htmlwidgets::saveWidget("plot12.5.html")
+
+plot12.5.5 =  ggplot(ccggeom) +
+  geom_polygon_interactive(data = ukdatapolygons, aes(x = long, y = lat, group = group, tooltip = label, fill = actual_cost)) +
+   geom_sf(data=ukdata$geometry, color = "white", size=0.1) +
+  coord_sf(crs= 4326, datum = sf::st_crs(4326)) +
+  scale_fill_gradientn(colours = pal) +
+  labs(title="Actual_cost spending on 'BNF Section 7.4.5 Drugs'")
+ggiraph(code = {print(plot12.5.5)}, width_svg = 17.07, height_svg = 13.46) %>%
+htmlwidgets::saveWidget("plot12.5.5.html")
 ```
