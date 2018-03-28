@@ -3,21 +3,24 @@ title: "R Notebook"
 ---
 
 ```{r}
+library(widgetframe)
+frameWidget(ggiraph(code = {print(plot1)}, hover_css = "fill:red; fill-opacity:0.5;", width_svg = 17.07, height_svg = 13.46, width=1))
+```
+
+
+```{r}
 plot1comp =  ggplot(ccggeom) +
   geom_polygon_interactive(data = ccgpolygons, aes(x = long, y = lat, group = group, tooltip = name, data_id = id)) +
   coord_sf(crs= 4326, datum = sf::st_crs(4326))
 ggiraph(code = {print(plot1)}, hover_css = "fill:red; fill-opacity:0.5;", width_svg = 17.07, height_svg = 13.46, width=1) %>%
-htmlwidgets::saveWidget("plot1comp.html")
-
-library(widgetframe)
-frameWidget(ggiraph(code = {print(plot1)}, hover_css = "fill:red; fill-opacity:0.5;", width_svg = 17.07, height_svg = 13.46, width=1))
+htmlwidgets::saveWidget("plot1comp.html", title = "Plot1 Compared")
 
 plot11comp = ggplot(ccggeom) +
   geom_polygon_interactive(data = polygons, aes(x = long, y = lat, group = group, tooltip = name, data_id = id)) +
   coord_sf(crs= 4326, datum = sf::st_crs(4326)) +
   geom_point(aes(x = lon, y = lat), color = "grey", size=0.1)
 ggiraph(code = {print(plot11)}, hover_css = "fill:red; fill-opacity:0.5;", width_svg = 17.07, height_svg = 13.46, width=1) %>%
-htmlwidgets::saveWidget("plot11comp.html")
+htmlwidgets::saveWidget("plot11comp.html", title = "Plot11 Compared")
 ```
 
 
