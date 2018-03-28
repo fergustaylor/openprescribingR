@@ -26,11 +26,11 @@ mutate(
 ```
 
 ```{r}
-#list <- list_size()
-#list <- list[list$row_name %in% ccggeom$name,]
-#list <- list$row_id %>%
-#  unique() %>%
-#  as.character()
+list <- list_size()
+list <- list[list$row_name %in% ccggeom$name,]
+list <- list$row_id %>%
+  unique() %>%
+  as.character()
 
 #clinics <- lapply(list, function (x){
 #  location_function(CCG_code = x, as_sf = TRUE)
@@ -79,7 +79,7 @@ plot11 = ggplot(ccggeom) +
   geom_polygon_interactive(data = polygons, aes(x = long, y = lat, group = group, tooltip = name, data_id = id)) +
   coord_sf(crs= 4326, datum = sf::st_crs(4326)) +
   geom_point(aes(x = lon, y = lat), color = "grey", size=0.1)
-ggiraph(code = {print(plot11)}, hover_css = "fill:red; fill-opacity:0.5;", width_svg = 17.07, height_svg = 13.46) %>%
+ggiraph(code = {print(plot11)}, hover_css = "fill:red; fill-opacity:0.5;", width_svg = 17.07, height_svg = 13.46, width=1) %>%
 htmlwidgets::saveWidget("plot11.html")
 rm(polygons)
 ```
@@ -107,7 +107,7 @@ ccgpolygons$name[!is.na(match(ccgpolygons$id, ccggeom$id[i]))] <- as.character(c
 plot1 =  ggplot(ccggeom) +
   geom_polygon_interactive(data = ccgpolygons, aes(x = long, y = lat, group = group, tooltip = name, data_id = id)) +
   coord_sf(crs= 4326, datum = sf::st_crs(4326))
-ggiraph(code = {print(plot1)}, hover_css = "fill:red; fill-opacity:0.5;", width_svg = 17.07, height_svg = 13.46) %>%
+ggiraph(code = {print(plot1)}, hover_css = "fill:red; fill-opacity:0.5;", width_svg = 17.07, height_svg = 13.46, width=1) %>%
 htmlwidgets::saveWidget("plot1.html")
 ```
 
@@ -117,7 +117,7 @@ plot2 =  ggplot(ccggeom) +
   geom_polygon_interactive(data = ccgpolygons, aes(x = long, y = lat, group = group, tooltip = name, data_id = id)) +
   geom_sf(data=cliniclist2, color = "grey", size=0.1) +
   coord_sf(crs= 4326, datum = sf::st_crs(4326))
-ggiraph(code = {print(plot2)}, hover_css = "fill:red; fill-opacity:0.5;", width_svg = 17.07, height_svg = 13.46) %>%
+ggiraph(code = {print(plot2)}, hover_css = "fill:red; fill-opacity:0.5;", width_svg = 17.07, height_svg = 13.46, width=1) %>%
 htmlwidgets::saveWidget("plot2.html")
 ```
 
@@ -144,7 +144,7 @@ plot6 =  ggplot(ccggeom) +
   geom_polygon_interactive(data = clinicpolygons, aes(x = long, y = lat, group = group, tooltip = name, data_id = id)) +
   geom_sf(data=cliniclist2, color = "grey", size=0.1) +
   coord_sf(crs= 4326, datum = sf::st_crs(4326))
-ggiraph(code = {print(plot6)}, hover_css = "fill:red; fill-opacity:0.5;", width_svg = 17.07, height_svg = 13.46) %>%
+ggiraph(code = {print(plot6)}, hover_css = "fill:red; fill-opacity:0.5;", width_svg = 17.07, height_svg = 13.46, width=1) %>%
 htmlwidgets::saveWidget("plot6.html")
 ```
 
@@ -213,7 +213,7 @@ plot7 = ggplot() +
   theme(legend.position="none") +
   coord_sf(crs= 4326, datum = sf::st_crs(4326))
 
-ggiraph(code = {print(plot7)}, width_svg = 17.07, height_svg = 14.75) %>%
+ggiraph(code = {print(plot7)}, width_svg = 17.07, height_svg = 14.75, width=1) %>%
 htmlwidgets::saveWidget("plot7.html")
 
 
@@ -231,7 +231,7 @@ plot7.5 = ggplot() +
   theme(legend.position="none") +
   coord_sf(crs= 4326, datum = sf::st_crs(4326))
 
-ggiraph(code = {print(plot7.5)}, hover_css = "fill:red; fill-opacity:0.5;", width_svg = 17.07, height_svg = 14.75) %>%
+ggiraph(code = {print(plot7.5)}, hover_css = "fill:red; fill-opacity:0.5;", width_svg = 17.07, height_svg = 14.75, width=1) %>%
 htmlwidgets::saveWidget("plot7.5.html")
 
 rm(CCGdata)
@@ -256,7 +256,7 @@ plot8 = ggplot(spendingdata) +
   theme(axis.text.x=element_text(angle=45, hjust = 1)) +
   labs(title="Actual_cost spending on 'BNF Section 2.12 Drugs - Lipid-Regulating Drugs'")
 
-ggiraph(code = {print(plot8)}, width_svg = 17.07, height_svg = 7.375) %>%
+ggiraph(code = {print(plot8)}, width_svg = 17.07, height_svg = 7.375, width=1) %>%
 htmlwidgets::saveWidget("plot8.html") 
 ```
 
@@ -275,7 +275,7 @@ plot8.5 = ggplot(spendingdata) +
   theme(axis.text.x=element_text(angle=45, hjust = 1)) +
   labs(title="Actual_cost spending on 'BNF Section 2.12 Drugs - Lipid-Regulating Drugs'")
 
-ggiraph(code = {print(plot8.5)}, width_svg = 17.07, height_svg = 7.375) %>%
+ggiraph(code = {print(plot8.5)}, width_svg = 17.07, height_svg = 7.375, width=1) %>%
 htmlwidgets::saveWidget("plot8.5.html") 
 ```
 
@@ -304,7 +304,7 @@ plot10 = ccgpracticespendingdata %>%
   theme(axis.text.x=element_text(angle=45, hjust = 1)) +
   labs(title="Actual_cost spending on 'BNF Section 2.12 Drugs - Lipid-Regulating Drugs'")
 
-ggiraph(code = {print(plot10)}, width_svg = 17.07, height_svg = 7.375) %>%
+ggiraph(code = {print(plot10)}, width_svg = 17.07, height_svg = 7.375, width=1) %>%
 htmlwidgets::saveWidget("plot10.html")
 
 rm(ccgpracticespendingdata, ccgpracticespendingdata2, tidyr)
@@ -352,12 +352,12 @@ rm(spending, list, i)
 ```
 
 ```{r}
-plot12 =  ggplot(ccggeom) +
-  geom_polygon_interactive(data = clinicpolygons, aes(x = long, y = lat, group = group, tooltip = name)) +
+#plot12 =  ggplot(ccggeom) +
+ # geom_polygon_interactive(data = clinicpolygons, aes(x = long, y = #lat, group = group, tooltip = name)) +
   #geom_sf(data=cliniclist2, color = "grey", size=0.1) +
-  coord_sf(crs= 4326, datum = sf::st_crs(4326))
-ggiraph(code = {print(plot12)}, width_svg = 17.07, height_svg = 13.46) %>%
-htmlwidgets::saveWidget("plot12.html")
+#  coord_sf(crs= 4326, datum = sf::st_crs(4326))
+#ggiraph(code = {print(plot12)}, width_svg = 17.07, height_svg = 13.46, width=1) %>%
+#htmlwidgets::saveWidget("plot12.html")
 ```
 
 ```{r}
@@ -411,8 +411,6 @@ ukdatapolygons <- st_intersection(st_cast(v), st_union(ccggeom)) %>%
   fortify()
 rm(v)
 
-ukdatapolygons$actual_cost <- as.numeric(ukdatapolygons$actual_cost)
-
 ukdata$name <- str_replace_all(ukdata$name, "'", " ")
 
 ukdata$id <- str_c("ID", 1:nrow(ukdata))
@@ -420,6 +418,9 @@ for (i in 1:length(ukdata$id)){
 ukdatapolygons$name[!is.na(match(ukdatapolygons$id, ukdata$id[i]))] <- as.character(ukdata$name[i])
 ukdatapolygons$actual_cost[!is.na(match(ukdatapolygons$id, ukdata$id[i]))] <- as.character(ukdata$actual_cost[i])
 }
+
+
+ukdatapolygons$actual_cost <- as.numeric(ukdatapolygons$actual_cost)
 
 #Label
 ukdatapolygons$label <- str_c(ukdatapolygons$name, " £", round(ukdatapolygons$actual_cost, 2))
@@ -432,7 +433,7 @@ plot12 =  ggplot(ccggeom) +
   geom_polygon_interactive(data = clinicpolygons, aes(x = long, y = lat, group = group, tooltip = name, data_id = id)) +
   #geom_sf(data=cliniclist2, color = "grey", size=0.1) +
   coord_sf(crs= 4326, datum = sf::st_crs(4326))
-ggiraph(code = {print(plot12)}, hover_css = "fill:red; fill-opacity:0.5;", width_svg = 17.07, height_svg = 13.46) %>%
+ggiraph(code = {print(plot12)}, hover_css = "fill:red; fill-opacity:0.5;", width_svg = 17.07, height_svg = 13.46, width=1) %>%
 htmlwidgets::saveWidget("plot12.html")
 
 plot12.5 =  ggplot(ccggeom) +
@@ -440,15 +441,15 @@ plot12.5 =  ggplot(ccggeom) +
   coord_sf(crs= 4326, datum = sf::st_crs(4326)) +
   scale_fill_gradientn(colours = pal) +
   labs(title="Actual_cost spending on 'BNF Section 7.4.5 Drugs'")
-ggiraph(code = {print(plot12.5)}, hover_css = "stroke:white;", width_svg = 17.07, height_svg = 13.46) %>%
+ggiraph(code = {print(plot12.5)}, hover_css = "stroke:white;", width_svg = 17.07, height_svg = 13.46, width=1) %>%
 htmlwidgets::saveWidget("plot12.5.html")
 
 plot12.5.5 =  ggplot(ccggeom) +
   geom_polygon_interactive(data = ukdatapolygons, aes(x = long, y = lat, group = group, tooltip = label, fill = actual_cost, data_id = id)) +
-   geom_sf(data=ukdata$geometry, color = "white", size=0.1) +
+   geom_sf(data=ukdata, color = "white", size=0.1) +
   coord_sf(crs= 4326, datum = sf::st_crs(4326)) +
   scale_fill_gradientn(colours = pal) +
   labs(title="Actual_cost spending on 'BNF Section 7.4.5 Drugs'")
-ggiraph(code = {print(plot12.5.5)}, hover_css = "stroke:white;", width_svg = 17.07, height_svg = 13.46) %>%
+ggiraph(code = {print(plot12.5.5)}, hover_css = "stroke:white;", width_svg = 17.07, height_svg = 13.46, width=1) %>%
 htmlwidgets::saveWidget("plot12.5.5.html")
 ```
