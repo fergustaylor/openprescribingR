@@ -11,6 +11,7 @@ library(stringr)
 library(deldir)
 library(rgdal)
 library(wesanderson)
+library(viridis)
 ```
 
 ```{r}
@@ -263,6 +264,14 @@ htmlwidgets::saveWidget("plot8.html")
 ```{r}
 #overlay voronoi
 #add css changes to nearest point
+
+filter(tidyr, group=="Q3"|group=="Q1")
+
+filter(tidyr, group=="Max"|group=="Min")
+
+filter(tidyr, group=="Clinic"|group=="Q2")
+
+
 plot8.5 = ggplot(spendingdata) +
   geom_ribbon(data = ccgpracticespendingdata2, aes(x = date, ymin = Min, ymax = Max), alpha=0.75, fill = "grey80") +
   geom_ribbon(data = ccgpracticespendingdata2, aes(x = date, ymin = Q1, ymax = Q3), alpha=0.75, fill = "grey70") +
@@ -288,6 +297,14 @@ tidyr$label <- str_replace_all(tidyr$label, "'", " ")
 ```
 
 ```{r}
+#add voronoi
+
+
+
+
+
+
+
 plot10 = ccgpracticespendingdata %>%
   ggplot() +
   geom_ribbon(data = ccgpracticespendingdata2, 
@@ -444,6 +461,14 @@ plot12.5 =  ggplot(ccggeom) +
 ggiraph(code = {print(plot12.5)}, hover_css = "stroke:white;", width_svg = 17.07, height_svg = 13.46, width=1) %>%
 htmlwidgets::saveWidget("plot12.5.html")
 
+plot12.5.1 =  ggplot(ccggeom) +
+  geom_polygon_interactive(data = ukdatapolygons, aes(x = long, y = lat, group = group, tooltip = label, fill = actual_cost, data_id = id)) +
+  coord_sf(crs= 4326, datum = sf::st_crs(4326)) +
+  scale_fill_viridis(begin = 0.2, end = 1) +
+  labs(title="Actual_cost spending on 'BNF Section 7.4.5 Drugs'")
+ggiraph(code = {print(plot12.5.1)}, hover_css = "stroke:white;", width_svg = 17.07, height_svg = 13.46, width=1) %>%
+htmlwidgets::saveWidget("plot12.5.1.html")
+
 plot12.5.5 =  ggplot(ccggeom) +
   geom_polygon_interactive(data = ukdatapolygons, aes(x = long, y = lat, group = group, tooltip = label, fill = actual_cost, data_id = id)) +
    geom_sf(data=ukdata, color = "white", size=0.1) +
@@ -452,4 +477,13 @@ plot12.5.5 =  ggplot(ccggeom) +
   labs(title="Actual_cost spending on 'BNF Section 7.4.5 Drugs'")
 ggiraph(code = {print(plot12.5.5)}, hover_css = "stroke:white;", width_svg = 17.07, height_svg = 13.46, width=1) %>%
 htmlwidgets::saveWidget("plot12.5.5.html")
+
+plot12.5.5.5 =  ggplot(ccggeom) +
+  geom_polygon_interactive(data = ukdatapolygons, aes(x = long, y = lat, group = group, tooltip = label, fill = actual_cost, data_id = id)) +
+   geom_sf(data=ukdata, color = "white", size=0.1) +
+  coord_sf(crs= 4326, datum = sf::st_crs(4326)) +
+  scale_fill_viridis(begin = 0.2, end = 1) +
+  labs(title="Actual_cost spending on 'BNF Section 7.4.5 Drugs'")
+ggiraph(code = {print(plot12.5.5.5)}, hover_css = "stroke:white;", width_svg = 17.07, height_svg = 13.46, width=1) %>%
+htmlwidgets::saveWidget("plot12.5.5.5.html")
 ```
