@@ -82,6 +82,8 @@ htmlwidgets::saveWidget("plot3.html")
 plot4 =  ggplot() +
   geom_sf(data = selectiondata, aes(fill = costperperson)) +
   geom_polygon_interactive(data = polygons, aes(x = long, y = lat, group = group, tooltip = label2), alpha = 0.1) +
+  scale_fill_continuous(breaks = c(0.04, 0.06, 0.08, 0.10, 0.12),
+  labels = paste("£", c(0.04, 0.06, 0.08, 0.10, 0.12))) +
   coord_sf(crs= 4326, datum = sf::st_crs(4326))
 ggiraph(code = {print(plot4)}, width_svg = 17.07, height_svg = 13.46, width=1)  %>%
 htmlwidgets::saveWidget("plot4.html")
@@ -90,6 +92,8 @@ plot5 =  ggplot() +
   geom_sf(data = selectiondata, aes(fill = costperperson)) +
   geom_polygon_interactive(data = polygons, aes(x = long, y = lat, group = group, tooltip = label, data_id = id), alpha = 0.1) +
   coord_sf(crs= 4326, datum = sf::st_crs(4326)) +
+  scale_fill_continuous(breaks = c(0.04, 0.06, 0.08, 0.10, 0.12),
+  labels = paste("£", c(0.04, 0.06, 0.08, 0.10, 0.12))) +
   labs(title="Actual_cost/total_list_size spending on 'BNF Section 7.4.5 Drugs', May 2017")
 
 ggiraph(code = {print(plot5)}, hover_css = "stroke: white;", width_svg = 17.07, height_svg = 13.46, width=1) %>%

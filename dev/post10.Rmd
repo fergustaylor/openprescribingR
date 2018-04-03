@@ -173,6 +173,15 @@ ccgpracticespendingdata2 <- spending_by_practice(BNF_section_code = "2.12", CCG_
   mutate(Clinic = spendingdata[, 'actual_cost'])
 ccgpracticespendingdata2$date <- as.Date(ccgpracticespendingdata2$date)
 
+#summarise to 2 sig figures
+ccgpracticespendingdata2$Q1 <- round(ccgpracticespendingdata2$Q1,2)
+ccgpracticespendingdata2$Q2 <- round(ccgpracticespendingdata2$Q2,2)
+ccgpracticespendingdata2$Q3 <- round(ccgpracticespendingdata2$Q3,2)
+ccgpracticespendingdata2$Min <- round(ccgpracticespendingdata2$Min,2)
+ccgpracticespendingdata2$Max <- round(ccgpracticespendingdata2$Max,2)
+ccgpracticespendingdata2$Total <- round(ccgpracticespendingdata2$Total,2)
+ccgpracticespendingdata2$Clinic <- round(ccgpracticespendingdata2$Clinic,2)
+
 tidyr <- ccgpracticespendingdata2 %>%
   gather(key = group, value = actual_cost, -date, -Total) %>%
   select(-Total) %>%
@@ -291,7 +300,7 @@ htmlwidgets::saveWidget("plot8.5.html")
 ```{r}
 ccgpracticespendingdata$date <- as.Date(ccgpracticespendingdata$date)
 ccgpracticespendingdata <- ccgpracticespendingdata %>%
-  mutate(label = str_c(date, ": ", row_name, ", ", actual_cost))
+  mutate(label = str_c(date, ": ", row_name, ", £", actual_cost))
 ccgpracticespendingdata$label <- str_replace_all(ccgpracticespendingdata$label, "'", " ")
 tidyr$label <- str_replace_all(tidyr$label, "'", " ")
 ```
