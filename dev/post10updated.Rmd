@@ -18,6 +18,7 @@ library(viridis)
 ccggeom <- CCG_boundaries_or_location(as_sf = TRUE) 
 #ccggeom without empty geoms
 ccggeom <- ccggeom[c(!is.na(st_dimension(st_sfc(ccggeom$geometry)))),]
+
 #centroids
 ccggeom <- ccggeom %>%
 mutate(
@@ -64,21 +65,45 @@ bbox_polygon <- function(x) {
 ```{r}
 #Produce the ccg polygons
 nc_centroids <- st_centroid(ccggeom)
-
 box <- st_sfc(bbox_polygon(nc_centroids))
 v <- st_voronoi(st_union(nc_centroids), box)
 rm(nc_centroids, box)
 polygons <- st_intersection(st_cast(v), st_union(ccggeom)) %>%
   as_Spatial() %>%
   fortify()
+
+length(unique(polygons$piece))
+length(unique(polygons$id))
+length(unique(polygons$group))
+
 ccggeom$id <- str_c("ID", 1:nrow(ccggeom))
-for (i in 1:length(ccggeom$id)){
-polygons$name[!is.na(match(polygons$id, ccggeom$id[i]))] <- as.character(ccggeom$name[i])
+#for (i in 1:length(ccggeom$id)){
+#polygons$name[!is.na(match(polygons$id, ccggeom$id[i]))] <- as.character(ccggeom$name[i])
 }
-rm(v)
+#rm(v)
 ```
 
 ```{r}
+st_transform(ccggeom, 29101) %>% 
+  st_centroid() %>% 
+  # this is the crs from d, which has no EPSG code:
+  st_transform(., '+proj=longlat +ellps=GRS80 +no_defs') %>%
+  # since you want the centroids in a second geometry col:
+  st_geometry()
+
+st_transform(ccggeom, 4326) %>% 
+  st_centroid()
+
+4326
+
+st_crs(ccggeom)
+
+plot11 = ggplot(ccggeom) +
+ geom_map_interactive(aes(map_id = id, map = polygons)) +
+  coord_sf(crs= 4326, datum = sf::st_crs(4326))
+ggiraph(code = {print(plot11)}, hover_css = "fill:red; fill-opacity:0.5;", width_svg = 17.07, height_svg = 13.46, width=1) %>%
+htmlwidgets::saveWidget("plot11.html")
+
 plot11 = ggplot(ccggeom) +
   geom_polygon_interactive(data = polygons, aes(x = long, y = lat, group = group, tooltip = name, data_id = id)) +
   coord_sf(crs= 4326, datum = sf::st_crs(4326)) +
